@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title-page %} Novo Formulário {% endblock %}
+
+{% block title-navbar-page %} Novo Formulário {% endblock %}
+
+{% block content %}
+<div class="row">
+   <div class="col-md-3">
+      <div class="card">
+         <!-- <div class="header">
+            <h4 class="title">Tabs</h4>
+         </div> -->
+         <div class="content buttons-with-margin">
+            <button type="button" data-toggle="modal" data-target="#myModalForm"
+                  class="btn btn-wd btn-info btn-fill w-100">
+                 <span class="btn-label">
+                     <i class="ti-text"></i>
+                 </span>
+                 Texto Curto
+             </button>
+             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+                 <span class="btn-label">
+                     <i class="ti-pencil-alt"></i>
+                 </span>
+                 Texto Longo
+             </button>
+             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+                 <span class="btn-label">
+                     <i class="ti-direction"></i>
+                 </span>
+                 Escolha Única
+             </button>
+             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+                 <span class="btn-label">
+                     <i class="ti-direction-alt"></i>
+                 </span>
+                 Escolha Múltipla
+             </button>
+             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+                 <span class="btn-label">
+                     <i class="ti-bar-chart-alt"></i>
+                 </span>
+                 Escala
+             </button>
+             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+                <span class="btn-label">
+                    <i class="ti-thumb-up"></i>
+                </span>
+                Concordo/Discordo
+           </button>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-9">
+      <div class="card">
+			<div class="header">
+				<h4 class="title">Tabs</h4>
+				<p class="category">Vertical tabs</p>
+			</div>
+			<div class="content">
+
+			</div>
+		</div>
+   </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary">Adicionar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

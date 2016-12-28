@@ -3,8 +3,9 @@ from eajforms.core.models import Person
 
 # Create your models here.
 class Form(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=255)
+    title = models.CharField('Título', max_length=100)
+    description = models.TextField('Descrição', max_length=255)
+    create_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     DOCENTE = 1
     COORDINATOR = 2
     COURSE = 3
@@ -16,15 +17,15 @@ class Form(models.Model):
         (POLE, "Polo")
 
     )
-    type_evaluated = models.PositiveIntegerField(choices=TYPE_EVALUATED_CHOICE)
-    need_identify = models.BooleanField(default=True)
+    type_evaluated = models.PositiveIntegerField('Tipo de Avaliado',choices=TYPE_EVALUATED_CHOICE)
+    need_identify = models.BooleanField('Precisa de Identificação?', default=True)
 
     class Meta:
         verbose_name = "Formulário"
         verbose_name_plural = "Formulários"
 
     def __str__(self):
-        pass
+        return self.title
 
 class Question(models.Model):
     title = models.CharField(max_length=100)
@@ -48,14 +49,14 @@ class Question(models.Model):
 
     type_question = models.PositiveIntegerField(choices = TYPE_QUESTION_CHOICES)
     is_required = models.BooleanField(default=True)
-    related_alternative = models.ForeignKey('Alternative', null=True, related_name='related_alternative')
+    related_alternative = models.ForeignKey('Alternative', null=True, blank=True, related_name='related_alternative')
 
     class Meta:
         verbose_name = "Questão"
         verbose_name_plural = "Questões"
 
     def __str__(self):
-        pass
+        return self.title
 
 class Alternative(models.Model):
     title = models.CharField(max_length=100)
@@ -67,7 +68,7 @@ class Alternative(models.Model):
         verbose_name_plural = "Alternativas"
 
     def __str__(self):
-        pass
+        return self.title
 
 class Answer(models.Model):
     text = models.CharField(max_length=255, null=True)
@@ -80,4 +81,3 @@ class Answer(models.Model):
 
     def __str__(self):
         pass
-    
