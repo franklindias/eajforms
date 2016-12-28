@@ -23,7 +23,7 @@ class Docente(Person):
         (DISTANCE_TEACHER, "Professor à Distância"),
         (MEDIATOR, "Mediador"),
         (TUTOR, "Tutor"),
-        
+
     )
     type_docente = models.PositiveIntegerField(choices=TYPE_DOCENTE_CHOICE)
 
@@ -33,7 +33,7 @@ class Docente(Person):
 
     def __str__(self):
         pass
-    
+
 class Coordinator(Person):
 
     class Meta:
@@ -42,7 +42,7 @@ class Coordinator(Person):
 
     def __str__(self):
         pass
-    
+
 class Pole(models.Model):
 
     class Meta:
@@ -84,7 +84,7 @@ class StudentCourse(models.Model):
 
     def __str__(self):
         pass
-    
+
 
 class CoursePole(models.Model):
     course = models.ForeignKey(Course)
@@ -96,7 +96,7 @@ class CoursePole(models.Model):
 
     def __str__(self):
         pass
-    
+
 class CoordinatorCourse(models.Model):
     course = models.ForeignKey(Course)
     coordinator = models.ForeignKey(Coordinator)
@@ -118,4 +118,3 @@ class CoordinatorPole(models.Model):
 
     def __str__(self):
         pass
-
