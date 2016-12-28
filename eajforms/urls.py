@@ -21,7 +21,7 @@ from .core import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
-    url(r'^login/$', login, name='login'),
-    url(r'^logout/$', logout, name='logout', kwargs={'next_page': '/'}),
+    url(r'^accounts/login/$', login, name='login'),
+    url(r'^accounts/logout/$', logout, name='logout', kwargs={'next_page': '/'}),
     url(r'^dashboard/$', views.dashboard, name='dashboard')
 ]
