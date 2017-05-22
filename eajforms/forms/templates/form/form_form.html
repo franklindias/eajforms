@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="row">
-   <div class="col-md-3">
+   <div class="col-md-4">
       <div class="card">
          <!-- <div class="header">
             <h4 class="title">Tabs</h4>
@@ -52,36 +52,85 @@
          </div>
       </div>
    </div>
-   <div class="col-md-9">
+   <div class="col-md-8">
       <div class="card">
 			<div class="header">
-				<h4 class="title">Tabs</h4>
-				<p class="category">Vertical tabs</p>
+				<h4 class="title">Questões</h4>
 			</div>
 			<div class="content">
-
+        <div class="table-full-width table-tasks">
+          <table class="table">
+              <tbody>
+                  <tr>
+                      <td class="text-center">
+                        <span >1</span>
+                      </td>
+                      <td>
+                        <span><strong>Qual seu nome completo?</span>
+                        <span class="help-block">Texto Curto</span>
+                      </td>
+                      <td class="td-actions text-right">
+                        <div class="table-icons">
+                          <button type="button" rel="tooltip" title="Editar Questão" class="btn btn-info btn-simple btn-xs" data-original-title="Editar Questão">
+                                <i class="ti-pencil-alt"></i>
+                          </button>
+                          <button type="button" rel="tooltip" title="Remover Questão" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover Questão">
+                              <i class="ti-close"></i>
+                          </button>
+                        </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
 			</div>
 		</div>
    </div>
 </div>
+{% endblock %}
 
-<!-- Modal -->
-<div class="modal fade" id="myModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
+{% block extra-modais %}
+<div class="modal fade" style="z-index:5000;" id="myModalForm" role="dialog" >
+  <div class="modal-dialog" role="document" style="z-index:5000;">
+    <div class="modal-content" style="z-index:5000;">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Adicionar <b>Texto Curto</b></h4>
       </div>
       <div class="modal-body">
-        ...
+        <div class="form-group">
+            <label>Questão</label>
+            <textarea class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Descrição</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Você pode adicionar uma pequena descrição para explicar sua pergunta."></i>
+            <textarea class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Máximo de n. de caracteres</label>
+            <i class="fa fa-info-circle text-primary" rel="tooltip" title="Limitar o número de caracteres que o usuário tem disponível para responder à pergunta."></i>
+            <div class="row">
+              <div class="col-md-3">
+                <input type="number" class="form-control" min="1">
+              </div>
+            </div>
+             <span class="help-block">Deixe vazio se não for necessário</span>
+        </div>
+        <div class="form-group">
+            <label class="checkbox">
+                <input type="checkbox" value="" data-toggle="checkbox">
+                 Este campo é obrigatório.
+            </label>
+        </div>
+
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer"> asdas
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Adicionar</button>
+        <button type="button" class="btn btn-primary">Adicionar Questão</button>
       </div>
     </div>
   </div>
 </div>
-
 {% endblock %}

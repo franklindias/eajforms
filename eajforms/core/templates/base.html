@@ -200,7 +200,7 @@
 
 			<div class="content">
 				<div class="container-fluid">
-					{% block content%}
+					{% block content %}
 					{% endblock %}
 				</div>
 			</div>
@@ -235,6 +235,9 @@
 			</footer>
 		</div>
 	</div>
+
+{% block extra-modais %}
+{% endblock %}
 
 </body>
 
@@ -295,11 +298,11 @@
 
 
 <script type="text/javascript">
-	$(document).ready(function() {
-		demo.initOverviewDashboard();
-		demo.initCirclePercentage();
+	// $(document).ready(function() {
+	// 	demo.initOverviewDashboard();
+	// 	demo.initCirclePercentage();
 
-	});
+	// });
 </script>
 
 </html>
