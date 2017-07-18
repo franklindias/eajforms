@@ -1,0 +1,53 @@
+<div class="modal fade" style="z-index:5000;" id="myModalFormBigText" role="dialog" >
+  <div class="modal-dialog" role="document" style="z-index:5000;">
+    <div class="modal-content" style="z-index:5000;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><template v-if="new_question.index == 0">
+          Adicionar
+        </template>
+        <template v-else>
+          Atualizar
+        </template> <b>Texto Longo</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Questão</label>
+          <textarea v-model="new_question.question" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Descrição</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Você pode adicionar uma pequena descrição para explicar sua pergunta."></i>
+          <textarea v-model="new_question.description" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Máximo de n. de caracteres</label>
+          <i class="fa fa-info-circle text-primary" rel="tooltip" title="Limitar o número de caracteres que o usuário tem disponível para responder à pergunta."></i>
+          <div class="row">
+            <div class="col-md-3">
+              <input v-model="new_question.max_characters" type="number" class="form-control" min="0">
+            </div>
+          </div>
+          <span class="help-block">Deixe <b>0 (zero)</b> se não for necessário</span>
+        </div>
+        <div class="form-group">
+          <label class="checkbox" @click="alterIsRequired()" >
+            <input v-model="new_question.is_required" type="checkbox" data-toggle="checkbox">
+            Este campo é obrigatório.
+          </label>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" @click="addQuestion('myModalFormBigText')"><template v-if="new_question.index == 0">
+          Adicionar
+        </template>
+        <template v-else>
+          Atualizar
+        </template> Questão</button>
+      </div>
+    </div>
+  </div>
+</div>

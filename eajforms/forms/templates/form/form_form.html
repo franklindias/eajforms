@@ -5,6 +5,8 @@
 {% block title-navbar-page %} Novo Formulário {% endblock %}
 
 {% block extra-css %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/css/bootstrap-slider.min.css">
 <style>
   .tooltip{
     margin-left: 18px;
@@ -20,38 +22,38 @@
             <h4 class="title">Tabs</h4>
           </div> -->
           <div class="content buttons-with-margin">
-            <button type="button" data-toggle="modal" data-target="#myModalForm"
+            <button @click="new_question.type = 1; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormSmallText"
             class="btn btn-wd btn-info btn-fill w-100">
             <span class="btn-label">
              <i class="ti-text"></i>
            </span>
            Texto Curto
          </button>
-         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="new_question.type = 2; new_question.index = 0; " type="button" data-toggle="modal" data-target="#myModalFormBigText" class="btn btn-wd btn-info btn-fill w-100">
            <span class="btn-label">
              <i class="ti-pencil-alt"></i>
            </span>
            Texto Longo
          </button>
-         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="new_question.type = 3; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormDropdown" class="btn btn-wd btn-info btn-fill w-100">
            <span class="btn-label">
              <i class="ti-direction"></i>
            </span>
            Escolha Única
          </button>
-         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="new_question.type = 4; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormMultipleChoice" type="button"  class="btn btn-wd btn-info btn-fill w-100">
            <span class="btn-label">
              <i class="ti-direction-alt"></i>
            </span>
            Escolha Múltipla
          </button>
-         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="new_question.type = 5; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormScale" type="button" class="btn btn-wd btn-info btn-fill w-100">
            <span class="btn-label">
              <i class="ti-bar-chart-alt"></i>
            </span>
            Escala
          </button>
-         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="new_question.type = 6; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormYesNo" type="button" class="btn btn-wd btn-info btn-fill w-100">
           <span class="btn-label">
             <i class="ti-thumb-up"></i>
           </span>
@@ -69,24 +71,27 @@
       <div class="table-full-width table-tasks">
         <table class="table">
           <tbody>
-            <tr>
+            <tr v-for="(question, index) in questions">
               <td class="text-center">
-                <span >1</span>
+                <span>${index+1}</span>
               </td>
               <td>
-                <span><strong>Qual seu nome completo?</span>
-                <span class="help-block">Texto Curto</span>
+                <span><strong>${question.question}</span>
+                <span class="help-block">${getTypeQuestion(question.type)}</span>
               </td>
               <td class="td-actions text-right">
                 <div class="table-icons">
-                  <button type="button" rel="tooltip" title="Editar Questão" class="btn btn-info btn-simple btn-xs" data-original-title="Editar Questão">
-                    <i class="ti-pencil-alt"></i>
+                  <button @click="new_question.index = index+1; editQuestion(question, index)" type="button" rel="tooltip" title="Editar Questão" class="btn btn-info btn-simple btn-xs" data-original-title="Editar Questão">
+                    <i class="ti-pencil"></i>
                   </button>
-                  <button type="button" rel="tooltip" title="Remover Questão" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover Questão">
+                  <button type="button" @click="removeQuestion(index)"  rel="tooltip" title="Remover Questão" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover Questão">
                     <i class="ti-close"></i>
                   </button>
                 </div>
               </td>
+            </tr>
+            <tr v-if="questions.length <= 0">
+              <td>Nenhuma questão adicionada até o momento!</td>
             </tr>
           </tbody>
         </table>
@@ -98,53 +103,17 @@
 {% endblock %}
 
 {% block extra-modais %}
-<div class="modal fade" style="z-index:5000;" id="myModalForm" role="dialog" >
-  <div class="modal-dialog" role="document" style="z-index:5000;">
-    <div class="modal-content" style="z-index:5000;">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Adicionar <b>Texto Curto</b></h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>Questão</label>
-          <textarea v-model="new_question.question" class="form-control" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Descrição</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Você pode adicionar uma pequena descrição para explicar sua pergunta."></i>
-          <textarea v-model="new_question.description" class="form-control" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Máximo de n. de caracteres</label>
-          <i class="fa fa-info-circle text-primary" rel="tooltip" title="Limitar o número de caracteres que o usuário tem disponível para responder à pergunta."></i>
-          <div class="row">
-            <div class="col-md-3">
-              <input v-model="new_question.max_characters" type="number" class="form-control" min="0">
-            </div>
-          </div>
-          <span class="help-block">Deixe <b>0 (zero)</b> se não for necessário</span>
-        </div>
-        <div class="form-group">
-          <label class="checkbox">
-            <input v-model="new_question.is_required" type="checkbox" value="" data-toggle="checkbox">
-            Este campo é obrigatório.
-          </label>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Adicionar Questão</button>
-      </div>
-    </div>
-  </div>
-</div>
+{% include 'form/modals/modal_small_text.html' %}
+{% include 'form/modals/modal_big_text.html' %}
+{% include 'form/modals/modal_dropdown.html' %}
+{% include 'form/modals/modal_multiple_choice.html' %}
+{% include 'form/modals/modal_scale.html' %}
+{% include 'form/modals/modal_yes_no.html' %}
 {% endblock %}
 
 {% block extra-javascript %}
 <script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.js"></script>
 
 <script>
 
@@ -153,12 +122,110 @@
     delimiters: ['${', '}'],
     data: {
       new_question:{
+        //1: Texto Curto
+        //2: Texto Longo
+        //3: Escolha Única
+        //4: Escolha Múltipla
+        //5: Escala
+        //6: Concorco/Discordo
         type:"",
         question:"",
         description:"",
         max_characters:0,
-        is_required:true
-      }
+        is_required:false,
+        choices:"",
+        max_rating:"10",
+        show_yes_no: false,
+        //0: Adicionar
+        //<>: Editar (index)
+        index:0
+      },
+      questions: []
+    },
+    methods:{
+      alterIsRequired(){
+        this.new_question.is_required =  !this.new_question.is_required
+      },
+      getTypeQuestion(option){
+        dict = {
+          "1":"Texto Curto",
+          "2":"Texto Longo",
+          "3":"Escolha Única",
+          "4":"Escolha Múltipla",
+          "5":"Escala",
+          "6":"Concordo/Discordo",
+        }
+
+        return dict[option] 
+      },
+      addQuestion(idModal){
+        self = this
+        $("#"+idModal).modal('hide');
+        if (self.new_question.index == 0){ 
+          self.questions.push(Vue.util.extend({}, self.new_question))
+        }else{
+          self.questions[self.new_question.index-1] = Vue.util.extend({}, self.new_question)
+        }
+        self.clearNewQuestion()
+      },
+      clearNewQuestion(){
+        this.new_question.question = ""
+        this.new_question.description = ""
+        this.new_question.max_characters = 0
+        this.new_question.is_required = false
+      },
+      removeQuestion(index){
+        self = this
+        swal({
+          title: 'Tem certeza?',
+          text: "Caso delete não será possível recuperá-la.",
+          type: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#68B3C8',
+          cancelButtonColor: '#eb5e28',
+          confirmButtonText: 'Sim, tenho!',
+          cancelButtonText: 'Cancelar'
+        }).then(function () {
+          self.questions.splice(index, 1)
+        })
+
+      },
+      editQuestion(question, index){
+        self = this
+
+        switch(question.type) {
+          case 1:
+          $("#myModalFormSmallText").modal("show")
+          break;
+          case 2:
+          $("#myModalFormBigText").modal("show")
+          break;
+          case 3:
+          $("#myModalFormDropdown").modal("show")
+          break;
+          case 4:
+          $("#myModalFormMultipleChoice").modal("show")
+          break;
+          case 5:
+          $("#myModalFormYesNo").modal("show")
+          break;
+          case 6:
+          $("#myModalFormScale").modal("show")
+          break;
+        }
+
+        self.new_question.type = question.type
+        self.new_question.question = question.question
+        self.new_question.description = question.description
+        self.new_question.max_characters = question.max_characters
+        self.new_question.is_required = question.is_required
+        self.new_question.choices = question.choices
+        self.new_question.max_rating = question.max_rating
+        self.new_question.show_yes_no = question.show_yes_no
+      } 
+    },
+    created(){
+
     }
   })
 </script>
