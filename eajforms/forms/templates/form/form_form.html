@@ -4,88 +4,96 @@
 
 {% block title-navbar-page %} Novo Formulário {% endblock %}
 
+{% block extra-css %}
+<style>
+  .tooltip{
+    margin-left: 18px;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row">
-   <div class="col-md-4">
-      <div class="card">
+ <div class="col-md-4">
+  <div class="card">
          <!-- <div class="header">
             <h4 class="title">Tabs</h4>
-         </div> -->
-         <div class="content buttons-with-margin">
+          </div> -->
+          <div class="content buttons-with-margin">
             <button type="button" data-toggle="modal" data-target="#myModalForm"
-                  class="btn btn-wd btn-info btn-fill w-100">
-                 <span class="btn-label">
-                     <i class="ti-text"></i>
-                 </span>
-                 Texto Curto
-             </button>
-             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
-                 <span class="btn-label">
-                     <i class="ti-pencil-alt"></i>
-                 </span>
-                 Texto Longo
-             </button>
-             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
-                 <span class="btn-label">
-                     <i class="ti-direction"></i>
-                 </span>
-                 Escolha Única
-             </button>
-             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
-                 <span class="btn-label">
-                     <i class="ti-direction-alt"></i>
-                 </span>
-                 Escolha Múltipla
-             </button>
-             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
-                 <span class="btn-label">
-                     <i class="ti-bar-chart-alt"></i>
-                 </span>
-                 Escala
-             </button>
-             <button type="button" class="btn btn-wd btn-info btn-fill w-100">
-                <span class="btn-label">
-                    <i class="ti-thumb-up"></i>
-                </span>
-                Concordo/Discordo
-           </button>
-         </div>
+            class="btn btn-wd btn-info btn-fill w-100">
+            <span class="btn-label">
+             <i class="ti-text"></i>
+           </span>
+           Texto Curto
+         </button>
+         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+           <span class="btn-label">
+             <i class="ti-pencil-alt"></i>
+           </span>
+           Texto Longo
+         </button>
+         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+           <span class="btn-label">
+             <i class="ti-direction"></i>
+           </span>
+           Escolha Única
+         </button>
+         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+           <span class="btn-label">
+             <i class="ti-direction-alt"></i>
+           </span>
+           Escolha Múltipla
+         </button>
+         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+           <span class="btn-label">
+             <i class="ti-bar-chart-alt"></i>
+           </span>
+           Escala
+         </button>
+         <button type="button" class="btn btn-wd btn-info btn-fill w-100">
+          <span class="btn-label">
+            <i class="ti-thumb-up"></i>
+          </span>
+          Concordo/Discordo
+        </button>
       </div>
-   </div>
-   <div class="col-md-8">
-      <div class="card">
-			<div class="header">
-				<h4 class="title">Questões</h4>
-			</div>
-			<div class="content">
-        <div class="table-full-width table-tasks">
-          <table class="table">
-              <tbody>
-                  <tr>
-                      <td class="text-center">
-                        <span >1</span>
-                      </td>
-                      <td>
-                        <span><strong>Qual seu nome completo?</span>
-                        <span class="help-block">Texto Curto</span>
-                      </td>
-                      <td class="td-actions text-right">
-                        <div class="table-icons">
-                          <button type="button" rel="tooltip" title="Editar Questão" class="btn btn-info btn-simple btn-xs" data-original-title="Editar Questão">
-                                <i class="ti-pencil-alt"></i>
-                          </button>
-                          <button type="button" rel="tooltip" title="Remover Questão" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover Questão">
-                              <i class="ti-close"></i>
-                          </button>
-                        </div>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+     <div class="header">
+      <h4 class="title">Questões</h4>
+    </div>
+    <div class="content">
+      <div class="table-full-width table-tasks">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="text-center">
+                <span >1</span>
+              </td>
+              <td>
+                <span><strong>Qual seu nome completo?</span>
+                <span class="help-block">Texto Curto</span>
+              </td>
+              <td class="td-actions text-right">
+                <div class="table-icons">
+                  <button type="button" rel="tooltip" title="Editar Questão" class="btn btn-info btn-simple btn-xs" data-original-title="Editar Questão">
+                    <i class="ti-pencil-alt"></i>
+                  </button>
+                  <button type="button" rel="tooltip" title="Remover Questão" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover Questão">
+                    <i class="ti-close"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-			</div>
-		</div>
-   </div>
+    </div>
+  </div>
+</div>
 </div>
 {% endblock %}
 
@@ -101,36 +109,57 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-            <label>Questão</label>
-            <textarea class="form-control" rows="2"></textarea>
+          <label>Questão</label>
+          <textarea v-model="new_question.question" class="form-control" rows="2"></textarea>
         </div>
         <div class="form-group">
-            <label>Descrição</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Você pode adicionar uma pequena descrição para explicar sua pergunta."></i>
-            <textarea class="form-control" rows="2"></textarea>
+          <label>Descrição</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Você pode adicionar uma pequena descrição para explicar sua pergunta."></i>
+          <textarea v-model="new_question.description" class="form-control" rows="2"></textarea>
         </div>
         <div class="form-group">
-            <label>Máximo de n. de caracteres</label>
-            <i class="fa fa-info-circle text-primary" rel="tooltip" title="Limitar o número de caracteres que o usuário tem disponível para responder à pergunta."></i>
-            <div class="row">
-              <div class="col-md-3">
-                <input type="number" class="form-control" min="1">
-              </div>
+          <label>Máximo de n. de caracteres</label>
+          <i class="fa fa-info-circle text-primary" rel="tooltip" title="Limitar o número de caracteres que o usuário tem disponível para responder à pergunta."></i>
+          <div class="row">
+            <div class="col-md-3">
+              <input v-model="new_question.max_characters" type="number" class="form-control" min="0">
             </div>
-             <span class="help-block">Deixe vazio se não for necessário</span>
+          </div>
+          <span class="help-block">Deixe <b>0 (zero)</b> se não for necessário</span>
         </div>
         <div class="form-group">
-            <label class="checkbox">
-                <input type="checkbox" value="" data-toggle="checkbox">
-                 Este campo é obrigatório.
-            </label>
+          <label class="checkbox">
+            <input v-model="new_question.is_required" type="checkbox" value="" data-toggle="checkbox">
+            Este campo é obrigatório.
+          </label>
         </div>
 
       </div>
-      <div class="modal-footer"> asdas
+      <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-primary">Adicionar Questão</button>
       </div>
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block extra-javascript %}
+<script src="https://unpkg.com/vue"></script>
+
+<script>
+
+  var app = new Vue({
+    el: '#app',
+    delimiters: ['${', '}'],
+    data: {
+      new_question:{
+        type:"",
+        question:"",
+        description:"",
+        max_characters:0,
+        is_required:true
+      }
+    }
+  })
+</script>
 {% endblock %}
