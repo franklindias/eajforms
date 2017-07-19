@@ -11,6 +11,13 @@
   .tooltip{
     margin-left: 18px;
   }
+  .btn-arrow{
+    padding:0px !important;
+  }
+  input[type="checkbox"]{
+    width: 18px !important;
+    height: 18px !important;
+  }
 </style>
 {% endblock %}
 
@@ -22,38 +29,38 @@
             <h4 class="title">Tabs</h4>
           </div> -->
           <div class="content buttons-with-margin">
-            <button @click="new_question.type = 1; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormSmallText"
+            <button @click="clearNewQuestion(); new_question.type = 1; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormSmallText"
             class="btn btn-wd btn-info btn-fill w-100">
             <span class="btn-label">
              <i class="ti-text"></i>
            </span>
            Texto Curto
          </button>
-         <button @click="new_question.type = 2; new_question.index = 0; " type="button" data-toggle="modal" data-target="#myModalFormBigText" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="clearNewQuestion(); new_question.type = 2; new_question.index = 0; " type="button" data-toggle="modal" data-target="#myModalFormBigText" class="btn btn-wd btn-info btn-fill w-100">
            <span class="btn-label">
              <i class="ti-pencil-alt"></i>
            </span>
            Texto Longo
          </button>
-         <button @click="new_question.type = 3; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormDropdown" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="clearNewQuestion(); new_question.type = 3; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormDropdown" class="btn btn-wd btn-info btn-fill w-100">
            <span class="btn-label">
              <i class="ti-direction"></i>
            </span>
            Escolha Única
          </button>
-         <button @click="new_question.type = 4; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormMultipleChoice" type="button"  class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="clearNewQuestion(); new_question.type = 4; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormMultipleChoice" type="button"  class="btn btn-wd btn-info btn-fill w-100">
            <span class="btn-label">
              <i class="ti-direction-alt"></i>
            </span>
            Escolha Múltipla
          </button>
-         <button @click="new_question.type = 5; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormScale" type="button" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="clearNewQuestion(); new_question.type = 5; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormScale" type="button" class="btn btn-wd btn-info btn-fill w-100">
            <span class="btn-label">
              <i class="ti-bar-chart-alt"></i>
            </span>
            Escala
          </button>
-         <button @click="new_question.type = 6; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormYesNo" type="button" class="btn btn-wd btn-info btn-fill w-100">
+         <button @click="clearNewQuestion(); new_question.type = 6; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormYesNo" type="button" class="btn btn-wd btn-info btn-fill w-100">
           <span class="btn-label">
             <i class="ti-thumb-up"></i>
           </span>
@@ -72,6 +79,14 @@
         <table class="table">
           <tbody>
             <tr v-for="(question, index) in questions">
+              <td style="white-space: nowrap; padding: 0; width: 0; text-align: center;">
+                <button @click="moveQuestionUp(index)" v-if="index != 0" type="button"  class="btn btn-info btn-simple btn-arrow" >
+                  <i class="ti-arrow-up"></i>
+                </button>
+                <button @click="moveQuestionDown(index)" v-if="index != questions.length-1" type="button"  class="btn btn-danger btn-simple btn-arrow">
+                  <i class="ti-arrow-down"></i>
+                </button>
+              </td>
               <td class="text-center">
                 <span>${index+1}</span>
               </td>
@@ -98,7 +113,12 @@
       </div>
     </div>
   </div>
-</div>
+  <button v-if="questions.length > 0" class="btn btn-success btn-fill btn-wd pull-right">
+    <span class="btn-label">
+      <i class="fa fa-save"></i>
+    </span>Salvar Formulário
+  </button>
+  </div>
 </div>
 {% endblock %}
 
@@ -136,8 +156,11 @@
         choices:"",
         max_rating:"10",
         show_yes_no: false,
+        label_left:"",
+        label_right:"",
+        label_middle:"",
         //0: Adicionar
-        //<>: Editar (index)
+        //<>0: Editar (index)
         index:0
       },
       questions: []
@@ -160,6 +183,7 @@
       },
       addQuestion(idModal){
         self = this
+
         $("#"+idModal).modal('hide');
         if (self.new_question.index == 0){ 
           self.questions.push(Vue.util.extend({}, self.new_question))
@@ -173,6 +197,12 @@
         this.new_question.description = ""
         this.new_question.max_characters = 0
         this.new_question.is_required = false
+        this.new_question.max_rating = 10
+        this.new_question.choices = ""
+        this.new_question.show_yes_no = false
+        this.new_question.label_left = ""
+        this.new_question.label_right = ""
+        this.new_question.label_middle = ""
       },
       removeQuestion(index){
         self = this
@@ -207,10 +237,10 @@
           $("#myModalFormMultipleChoice").modal("show")
           break;
           case 5:
-          $("#myModalFormYesNo").modal("show")
+          $("#myModalFormScale").modal("show")
           break;
           case 6:
-          $("#myModalFormScale").modal("show")
+          $("#myModalFormYesNo").modal("show")
           break;
         }
 
@@ -222,7 +252,16 @@
         self.new_question.choices = question.choices
         self.new_question.max_rating = question.max_rating
         self.new_question.show_yes_no = question.show_yes_no
-      } 
+        self.new_question.label_left = question.label_left
+        self.new_question.label_right = question.label_right
+        self.new_question.label_middle = question.label_middle
+      },
+      moveQuestionDown(index){
+        this.questions.splice(index+1, 0, this.questions.splice(index, 1)[0]);
+      },
+      moveQuestionUp(index){
+        this.questions.splice(index-1, 0, this.questions.splice(index, 1)[0]);
+      }
     },
     created(){
 

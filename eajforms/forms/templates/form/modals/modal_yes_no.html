@@ -22,17 +22,17 @@
           <textarea v-model="new_question.description" class="form-control" rows="2"></textarea>
         </div>
 
-         <div class="form-group">
-          <label class="checkbox" @click="alterIsRequired()" >
-            <input v-model="new_question.show_yes_no" type="checkbox" data-toggle="checkbox">
-            Marque caso prefira que apareça <b>Sim ou Não</b> na questão.
+         <div class="form-group" style="margin-bottom:0;">
+          <label class="" @click="alterIsRequired()" >
+            <input v-model="new_question.show_yes_no" type="checkbox" >
+            <span style="vertical-align: super;">Marque caso prefira que apareça <strong>Sim</strong> e <strong>Não</strong> na questão.</span>
           </label>
         </div>
         
         <div class="form-group">
-          <label class="checkbox" @click="alterIsRequired()" >
-            <input v-model="new_question.is_required" type="checkbox" data-toggle="checkbox">
-            Esta questão é obrigatória.
+          <label class="" @click="alterIsRequired()" >
+            <input v-model="new_question.is_required" type="checkbox" >
+            <span style="vertical-align: super;">Esta questão é obrigatória.</span>
           </label>
         </div>
 

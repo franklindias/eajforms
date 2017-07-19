@@ -28,19 +28,19 @@
         </div>
         <div class="row">
           <div class="col-md-4 text-left">
-            <input type="text" placeholder="Label Esquerdo" class="form-control ">
+            <input v-model="new_question.label_left" type="text" placeholder="Label Esquerdo" class="form-control ">
           </div>
           <div class="col-md-4 text-center">
-            <input type="text" :disabled="new_question.max_rating % 2 == 0" placeholder="Label Central" class="form-control ">
+            <input v-model="new_question.label_middle" type="text" :disabled="new_question.max_rating % 2 == 0" placeholder="Label Central" class="form-control ">
           </div>
           <div class="col-md-4 text-right">
-            <input type="text" placeholder="Label Direito" class="form-control ">
+            <input v-model="new_question.label_right" type="text" placeholder="Label Direito" class="form-control ">
           </div>
         </div><br/>
         <div class="form-group">
-          <label class="checkbox" @click="alterIsRequired()" >
-            <input v-model="new_question.is_required" type="checkbox" data-toggle="checkbox">
-            Este campo é obrigatório.
+          <label class="" @click="alterIsRequired()" >
+            <input v-model="new_question.is_required" type="checkbox" >
+            <span style="vertical-align: super;">Este campo é obrigatório.</span>
           </label>
         </div>
 
