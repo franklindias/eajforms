@@ -44,7 +44,8 @@ class Coordinator(Person):
         pass
 
 class Pole(models.Model):
-
+    name = models.CharField(max_length=50)
+    
     class Meta:
         verbose_name = "Polo"
         verbose_name_plural = "Polos"

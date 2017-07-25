@@ -4956,6 +4956,9 @@ strong {
 }
 .main-panel > .footer {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+      bottom: 0px;
+    position: absolute;
+    width: 100%;
 }
 .main-panel .navbar {
   margin-bottom: 0;

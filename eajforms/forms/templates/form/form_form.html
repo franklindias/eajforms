@@ -23,102 +23,123 @@
 
 {% block content %}
 <div class="row">
- <div class="col-md-4">
-  <div class="card">
-         <!-- <div class="header">
-            <h4 class="title">Tabs</h4>
-          </div> -->
-          <div class="content buttons-with-margin">
-            <button @click="clearNewQuestion(); new_question.type = 1; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormSmallText"
-            class="btn btn-wd btn-info btn-fill w-100">
-            <span class="btn-label">
-             <i class="ti-text"></i>
-           </span>
-           Texto Curto
-         </button>
-         <button @click="clearNewQuestion(); new_question.type = 2; new_question.index = 0; " type="button" data-toggle="modal" data-target="#myModalFormBigText" class="btn btn-wd btn-info btn-fill w-100">
-           <span class="btn-label">
-             <i class="ti-pencil-alt"></i>
-           </span>
-           Texto Longo
-         </button>
-         <button @click="clearNewQuestion(); new_question.type = 3; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormDropdown" class="btn btn-wd btn-info btn-fill w-100">
-           <span class="btn-label">
-             <i class="ti-direction"></i>
-           </span>
-           Escolha Única
-         </button>
-         <button @click="clearNewQuestion(); new_question.type = 4; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormMultipleChoice" type="button"  class="btn btn-wd btn-info btn-fill w-100">
-           <span class="btn-label">
-             <i class="ti-direction-alt"></i>
-           </span>
-           Escolha Múltipla
-         </button>
-         <button @click="clearNewQuestion(); new_question.type = 5; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormScale" type="button" class="btn btn-wd btn-info btn-fill w-100">
-           <span class="btn-label">
-             <i class="ti-bar-chart-alt"></i>
-           </span>
-           Escala
-         </button>
-         <button @click="clearNewQuestion(); new_question.type = 6; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormYesNo" type="button" class="btn btn-wd btn-info btn-fill w-100">
-          <span class="btn-label">
-            <i class="ti-thumb-up"></i>
-          </span>
-          Concordo/Discordo
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="card">
-     <div class="header">
-      <h4 class="title">Questões</h4>
-    </div>
-    <div class="content">
-      <div class="table-full-width table-tasks">
-        <table class="table">
-          <tbody>
-            <tr v-for="(question, index) in questions">
-              <td style="white-space: nowrap; padding: 0; width: 0; text-align: center;">
-                <button @click="moveQuestionUp(index)" v-if="index != 0" type="button"  class="btn btn-info btn-simple btn-arrow" >
-                  <i class="ti-arrow-up"></i>
-                </button>
-                <button @click="moveQuestionDown(index)" v-if="index != questions.length-1" type="button"  class="btn btn-danger btn-simple btn-arrow">
-                  <i class="ti-arrow-down"></i>
-                </button>
-              </td>
-              <td class="text-center">
-                <span>${index+1}</span>
-              </td>
-              <td>
-                <span><strong>${question.question}</span>
-                <span class="help-block">${getTypeQuestion(question.type)}</span>
-              </td>
-              <td class="td-actions text-right">
-                <div class="table-icons">
-                  <button @click="new_question.index = index+1; editQuestion(question, index)" type="button" rel="tooltip" title="Editar Questão" class="btn btn-info btn-simple btn-xs" data-original-title="Editar Questão">
-                    <i class="ti-pencil"></i>
-                  </button>
-                  <button type="button" @click="removeQuestion(index)"  rel="tooltip" title="Remover Questão" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover Questão">
-                    <i class="ti-close"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr v-if="questions.length <= 0">
-              <td>Nenhuma questão adicionada até o momento!</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="header">
+        <h5 class="title">Sobre o formulário</h5>
+      </div>
+      <div class="content">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Título</label>
+              <input type="text" v-model="form.title" class="form-control"></textarea>
+              <span class="help-block">O título ajudará a indentificar o formulário mais facilmente.</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label>Descrição</label>
+              <textarea v-model="form.description" class="form-control" rows="2"></textarea>
+            </div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <button v-if="questions.length > 0" class="btn btn-success btn-fill btn-wd pull-right">
-    <span class="btn-label">
-      <i class="fa fa-save"></i>
-    </span>Salvar Formulário
-  </button>
+  <div class="row">
+   <div class="col-md-4">
+    <div class="card">
+      <div class="content buttons-with-margin">
+        <button @click="clearNewQuestion(); new_question.type = 1; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormSmallText"
+        class="btn btn-wd btn-info btn-fill w-100">
+        <span class="btn-label">
+         <i class="ti-text"></i>
+       </span>
+       Texto Curto
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 2; new_question.index = 0; " type="button" data-toggle="modal" data-target="#myModalFormBigText" class="btn btn-wd btn-info btn-fill w-100">
+       <span class="btn-label">
+         <i class="ti-pencil-alt"></i>
+       </span>
+       Texto Longo
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 3; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormDropdown" class="btn btn-wd btn-info btn-fill w-100">
+       <span class="btn-label">
+         <i class="ti-direction"></i>
+       </span>
+       Escolha Única
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 4; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormMultipleChoice" type="button"  class="btn btn-wd btn-info btn-fill w-100">
+       <span class="btn-label">
+         <i class="ti-direction-alt"></i>
+       </span>
+       Escolha Múltipla
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 5; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormScale" type="button" class="btn btn-wd btn-info btn-fill w-100">
+       <span class="btn-label">
+         <i class="ti-bar-chart-alt"></i>
+       </span>
+       Escala
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 6; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormYesNo" type="button" class="btn btn-wd btn-info btn-fill w-100">
+      <span class="btn-label">
+        <i class="ti-thumb-up"></i>
+      </span>
+      Concordo/Discordo
+    </button>
   </div>
+</div>
+</div>
+<div class="col-md-8">
+  <div class="card">
+   <div class="header">
+    <h5 class="title">Questões</h5>
+  </div>
+  <div class="content">
+    <div class="table-full-width table-tasks">
+      <table class="table">
+        <tbody>
+          <tr v-for="(question, index) in questions">
+            <td style="white-space: nowrap; padding: 0; width: 0; text-align: center;">
+              <button @click="moveQuestionUp(index)" v-if="index != 0" type="button"  class="btn btn-info btn-simple btn-arrow" >
+                <i class="ti-arrow-up"></i>
+              </button>
+              <button @click="moveQuestionDown(index)" v-if="index != questions.length-1" type="button"  class="btn btn-danger btn-simple btn-arrow">
+                <i class="ti-arrow-down"></i>
+              </button>
+            </td>
+            <td class="text-center">
+              <span>${index+1}</span>
+            </td>
+            <td>
+              <span><strong>${question.question}</span>
+              <span class="help-block">${getTypeQuestion(question.type)}</span>
+            </td>
+            <td class="td-actions text-right">
+              <div class="table-icons">
+                <button @click="new_question.index = index+1; editQuestion(question, index)" type="button" rel="tooltip" title="Editar Questão" class="btn btn-info btn-simple btn-xs" data-original-title="Editar Questão">
+                  <i class="ti-pencil"></i>
+                </button>
+                <button type="button" @click="removeQuestion(index)"  rel="tooltip" title="Remover Questão" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover Questão">
+                  <i class="ti-close"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr v-if="questions.length <= 0">
+            <td>Nenhuma questão adicionada até o momento!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<button v-if="questions.length > 0" @click="formSave()" class="btn btn-success btn-fill btn-wd pull-right">
+  <span class="btn-label">
+    <i class="fa fa-save"></i>
+  </span> Salvar Formulário
+</button><br/><br/>
+</div>
 </div>
 {% endblock %}
 
@@ -163,7 +184,12 @@
         //<>0: Editar (index)
         index:0
       },
-      questions: []
+      questions: [],
+      form:{
+        title:"",
+        description:"",
+        questions:[]
+      }
     },
     methods:{
       alterIsRequired(){
@@ -261,7 +287,42 @@
       },
       moveQuestionUp(index){
         this.questions.splice(index-1, 0, this.questions.splice(index, 1)[0]);
-      }
+      },
+      formSave(){
+        self = this
+
+        $.ajax({
+          url: "{% url 'form_save' %}",
+          type: "POST",
+          data: {
+            "title": self.form.title,
+            "description": self.form.description,
+            "questions": JSON.stringify(self.questions),
+            "csrfmiddlewaretoken": "{{csrf_token}}",
+          },
+          success: function (response) {
+            swal({
+              title: "Sucesso!",
+              text: "Formulário cadastrado com sucesso!",
+              type: "success",
+              showCancelButton: false,
+              confirmButtonColor: "#ff9602",
+              confirmButtonText: "Ok!",
+              closeOnConfirm: true
+            },
+            function(){
+             window.location = "{% url 'form_list' %}"
+           });
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            swal({
+              title:"Erro interno! ;(",
+              text:"Aconteceu algum erro inesperado, tente novamente!",
+              type:"error",
+            })
+          }
+        });
+      },
     },
     created(){
 

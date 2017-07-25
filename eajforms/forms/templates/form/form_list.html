@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title-page %} Listagem dos Formulários {% endblock %}
+
+{% block title-navbar-page %} Todos os Formulário {% endblock %}
+
+{% block extra-css %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.css">
+<style>
+    .btn-arrow{
+        padding:0px !important;
+    }
+    input[type="checkbox"]{
+        width: 18px !important;
+        height: 18px !important;
+    }
+    .btn-action{
+        font-size: 16px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+ <div class="col-md-12">
+    <div class="card">
+      <div class="content">
+         <table class="table">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descrição</th>
+                    <th class="text-center">Total de Questões</th>
+                    <th class="text-center">Total de Aplicações</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in forms %}
+                <tr>
+                    <td>{{form.title}}</td>
+                    <td>{{form.description}}</td>
+                    <td class="text-center">{{form.question_set.count}}</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">
+                        <a href="{% url 'form_apply' pk=form.pk %}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs btn-action" data-original-title="Aplicar">
+                            <i class="ti-arrow-right"></i>
+                        </a>
+                        <a href="#" rel="tooltip" title="" class="btn btn-success btn-simple btn-xs btn-action" data-original-title="Editar">
+                            <i class="ti-pencil"></i>
+                        </a>
+                        <a href="#" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs btn-action" data-original-title="Deletar">
+                            <i class="ti-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra-modais %}
+{% endblock %}
+
+{% block extra-javascript %}
+{% endblock %}
