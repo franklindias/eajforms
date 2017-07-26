@@ -13,37 +13,8 @@
         {% endblock %}
     </title>
 
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="http://www.creative-tim.com/product/paper-dashboard-pro" />
-
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-
-    <!--  Social tags      -->
-    <meta name="keywords" content="creative tim, html dashboard, html css dashboard, web dashboard, bootstrap dashboard, bootstrap, css3 dashboard, bootstrap admin, paper bootstrap dashboard, frontend, responsive bootstrap dashboard">
-    <meta name="description" content="Paper Dashboard PRO is a beautiful Bootstrap admin dashboard with a large number of components, designed to look neat and organised. ">
-
-    <!-- Schema.org markup for Google+ -->
-    <meta itemprop="name" content="Paper Dashboard PRO by Creative Tim">
-    <meta itemprop="description" content="Paper Dashboard PRO is a beautiful Bootstrap admin dashboard with a large number of components, designed to look neat and organised. If you are looking for a tool to manage and visualise data about your business, this dashboard is the thing for you.">
-
-    <meta itemprop="image" content="http://s3.amazonaws.com/creativetim_bucket/products/47/original/opt_pdp_thumbnail.jpg">
-
-    <!-- Twitter Card data -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@creativetim">
-    <meta name="twitter:title" content="Paper Dashboard PRO by Creative Tim">
-    <meta name="twitter:description" content="Paper Dashboard PRO is a beautiful Bootstrap admin dashboard with a large number of components, designed to look neat and organised.">
-    <meta name="twitter:creator" content="@creativetim">
-    <meta name="twitter:image" content="http://s3.amazonaws.com/creativetim_bucket/products/47/original/opt_pdp_thumbnail.jpg">
-
-    <!-- Open Graph data -->
-    <meta property="og:title" content="Paper Dashboard PRO by Creative Tim" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="http://demos.creative-tim.com/paper-dashboard-pro/examples/dashboard/overview.html" />
-    <meta property="og:image" content="http://s3.amazonaws.com/creativetim_bucket/products/47/original/opt_pdp_thumbnail.jpg" />
-    <meta property="og:description" content="Paper Dashboard PRO is a beautiful Bootstrap admin dashboard with a large number of components, designed to look neat and organised." />
-    <meta property="og:site_name" content="Creative Tim" />
 
     <!-- Bootstrap core CSS     -->
     <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" />
@@ -53,13 +24,13 @@
     <!--  Paper Dashboard core CSS    -->
     <link href="{% static 'assets/css/paper-dashboard.css' %}" rel="stylesheet" />
 
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="{% static 'assets/css/demo.css' %}" rel="stylesheet" />
 
     <!--  Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="{% static 'assets/css/themify-icons.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/css/bootstrap-slider.min.css">
     
     <style>
         .main-panel{
@@ -76,48 +47,171 @@
                     <div class="container-fluid">
                         <div class="row">
                          <div class="col-md-8 col-md-offset-2">
+                            <h4 class="title text-center">{{form.title|lower|capfirst}}</h4>
+                            <p class="category text-center">{{form.description}}</p><br/>
                             <div class="card">
-                                <div class="header">
-                                    <h5 class="title">{{form.title}}</h5>
-                                    <p class="category">{{form.description}}</p>
-                                </div>
                                 <div class="content">
-                                    {% for question in form.question_set.all %}
-                                    <div class="row">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        {% for question in form.question_set.all %}
+                                        {% if question.type_question == 1 %}
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                  <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }} </label>
+                                                  <input {{ question.is_required|yesno:"required," }} 
+                                                  {% if question.max_size != 0 %}
+                                                  maxlength="{{question.max_size}}" 
+                                                  {% endif %}
+                                                  type="text" 
+                                                  class="form-control"></textarea>
+                                                  <span class="help-block">{{question.description|lower|capfirst}}</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      {% elif question.type_question == 2 %}
+                                      <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                              <label>{{question.title}}</label>
-                                              <input type="text" v-model="form.title" class="form-control"></textarea>
-                                              <span class="help-block">{{question.description}}</span>
+                                              <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
+                                              <textarea {{ question.is_required|yesno:"required," }} 
+                                              class="form-control"
+                                              {% if question.max_size != 0 %}
+                                              maxlength="{{question.max_size}}" 
+                                              {% endif %}></textarea>
+                                              <span class="help-block">{{question.description|lower|capfirst}}</span>
                                           </div>
                                       </div>
                                   </div>
-                                  {% endfor %}
+                                  {% elif question.type_question == 3 %}
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
+                                          <select {{ question.is_required|yesno:"required," }} name="" id="" class="form-control">
+                                              {% for alternative in question.alternative_set.all  %}
+                                              <option value="{{alternative.pk}}">{{alternative.title}}</option>
+                                              {% endfor %}
+                                          </select>
+                                          <span class="help-block">{{question.description|lower|capfirst}}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                              {% elif question.type_question == 4 %}       
+                              <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
+                              <div class="row">
+                                  {% for alternative in question.alternative_set.all  %}
+                                  <div class="{% if forloop.counter|divisibleby:2 %}col-md-8{%else%}col-md-4{% endif %}">
+                                      <div class="checkbox" style="margin-top: initial;" >
+                                       <input type="checkbox" class="checkbox" value="{{alternative.pk}}">
+                                       <label for="checkbox2">
+                                        {{alternative.title|lower|capfirst}}
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <span class="help-block">{{question.description|lower|capfirst}}</span>
+                        {% elif question.type_question == 5 %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                  <label>{{ forloop.counter }} - {{question.title|lower|capfirst}} {{ question.is_required|yesno:"*," }}</label><br/>
+
+                                  <input {{ question.is_required|yesno:"required," }} style="width:100%; margin: 0 auto;"
+                                  type="text"
+                                  name="somename"
+                                  data-provide="slider"
+                                  data-slider-min="1"
+                                  data-slider-max="{{question.max_scale}}"
+                                  data-slider-step="1"
+                                  data-slider-value="1"
+                                  >
+                                  <div class="row">
+                                      <div class="col-md-4 text-left">
+                                          {{question.left_label|lower|capfirst}}
+                                      </div>
+                                      <div class="col-md-4 text-center">
+                                          {{question.middle_label|lower|capfirst}}
+                                      </div>
+                                      <div class="col-md-4 text-right">
+                                          {{question.right_label|lower|capfirst}}
+                                      </div>
+                                  </div>
+                                  <span class="help-block">{{question.description|lower|capfirst}}</span>
                               </div>
                           </div>
                       </div>
-                  </div>
-              </div>
-          </div>
-          <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-                    </ul>
-                </nav>
-                <div class="copyright pull-right">
-                    &copy; 2017
-                    , feito com <i class="fa fa-github"></i> por <a href="#">EAJ Forms</a>
+                      {% elif question.type_question == 6 %}
+                      <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="radio" style="margin-top: initial;">
+                                  <input type="radio" class="radio" value="1">
+                                  <label for="checkbox2">
+                                     {{ question.show_yes_no|yesno:"Sim,Concordo" }}
+                                 </label>
+                             </div>
+                         </div>
+                         <div class="col-md-12">
+                          <div class="radio" style="margin-top: initial;">
+                              <input type="radio" class="radio" value="2">
+                              <label for="checkbox2">
+                                  {{ question.show_yes_no|yesno:"Parcialmente,Concordo parcialmente" }}
+                              </label>
+                          </div>
+                      </div>
+                      <div class="col-md-1">
+                          <div class="radio" style="margin-top: initial;">
+                              <input type="radio" class="radio" value="2">
+                              <label for="checkbox2">
+                                {{ question.show_yes_no|yesno:"Não,Discordo" }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="radio" style="margin-top: initial;">
+                          <input type="radio" class="radio" value="2">
+                          <label for="checkbox2">
+                            Não se aplica (Não precisei de nenhum desses serviços)
+                        </label>
+                    </div>
                 </div>
             </div>
-        </footer>
+            <span class="help-block">{{question.description|lower|capfirst}}</span>
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </div>
-{% block extra-modais %}
-{% endblock %}
-
 </div>
-
+</div>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2 text-center">
+      <button class="btn btn-success btn-fill btn-wd">
+          <span class="btn-label">
+            <i class="fa fa-save"></i>
+        </span> Enviar Respostas
+    </button>
+</div>
+</div>
+</div>
+</form>
+<footer class="footer">
+    <div class="container-fluid">
+        <nav class="pull-left">
+            <ul>
+            </ul>
+        </nav>
+        <div class="copyright pull-right">
+            &copy; 2017
+            , feito com <i class="fa fa-github"></i> por <a href="#">EAJ Forms</a>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+</div>
 
 <!--   Core JS Files. Extra: PerfectScrollbar + TouchPunch libraries inside jquery-ui.min.js   -->
 <script src="{% static 'assets/js/jquery-1.10.2.js' %}" type="text/javascript"></script>
@@ -139,38 +233,13 @@
 <!--  Checkbox, Radio, Switch and Tags Input Plugins -->
 <script src="{% static 'assets/js/bootstrap-checkbox-radio-switch-tags.js' %}"></script>
 
-<!-- Circle Percentage-chart
-    <script src="{% static 'assets/js/jquery.easypiechart.min.js' %}"></script> -->
+<!--  Bootstrap Table Plugin    -->
+<script src="{% static 'assets/js/bootstrap-table.js' %}"></script>
 
-<!--  Charts Plugin
-    <script src="{% static 'assets/js/chartist.min.js' %}"></script> -->
+<!-- Paper Dashboard PRO Core javascript and methods for Demo purpose -->
+<script src="{% static 'assets/js/paper-dashboard.js' %}"></script>
 
-<!--  Notifications Plugin
-    <script src="{% static 'assets/js/bootstrap-notify.js' %}"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/bootstrap-slider.min.js"></script>
 
-
-<!-- Vector Map plugin
-    <script src="{% static 'assets/js/jquery-jvectormap.js' %}"></script> -->
-
-<!--  Google Maps Plugin
-    <script src="https://maps.googleapis.com/maps/api/js"></script>  -->
-
-<!-- Wizard Plugin
-    <script src="{% static 'assets/js/jquery.bootstrap.wizard.min.js' %}"></script> -->
-
-    <!--  Bootstrap Table Plugin    -->
-    <script src="{% static 'assets/js/bootstrap-table.js' %}"></script>
-
-<!--  Full Calendar Plugin
-    <script src="{% static 'assets/js/fullcalendar.min.js' %}"></script> -->
-
-    <!-- Paper Dashboard PRO Core javascript and methods for Demo purpose -->
-    <script src="{% static 'assets/js/paper-dashboard.js' %}"></script>
-
-    <!--   Sharrre Library    -->
-    <script src="{% static 'assets/js/jquery.sharrre.js' %}"></script>
-
-    {% block extra-javascript %}
-    {% endblock %}
 </body>
 </html>
