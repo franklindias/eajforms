@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+{% block title-page %} Novo Formulário {% endblock %}
+
+{% block title-navbar-page %} Novo Formulário {% endblock %}
+
+{% block extra-css %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/css/bootstrap-slider.min.css">
+<style>
+  .tooltip{
+    margin-left: 18px;
+  }
+  .btn-arrow{
+    padding:0px !important;
+  }
+  input[type="checkbox"]{
+    width: 18px !important;
+    height: 18px !important;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="header">
+        <h5 class="title">Sobre o formulário</h5>
+      </div>
+      <div class="content">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Título</label>
+              <input type="text" v-model="form.title" class="form-control"></textarea>
+              <span class="help-block">O título ajudará a indentificar o formulário mais facilmente.</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label>Descrição</label>
+              <textarea v-model="form.description" class="form-control" rows="2"></textarea>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+   <div class="col-md-4">
+    <div class="card">
+      <div class="content buttons-with-margin">
+        <button @click="clearNewQuestion(); new_question.type = 1; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormSmallText"
+        class="btn btn-wd btn-info btn-fill w-100">
+        <span class="btn-label">
+         <i class="ti-text"></i>
+       </span>
+       Texto Curto
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 2; new_question.index = 0; " type="button" data-toggle="modal" data-target="#myModalFormBigText" class="btn btn-wd btn-info btn-fill w-100">
+       <span class="btn-label">
+         <i class="ti-pencil-alt"></i>
+       </span>
+       Texto Longo
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 3; new_question.index = 0;" type="button" data-toggle="modal" data-target="#myModalFormDropdown" class="btn btn-wd btn-info btn-fill w-100">
+       <span class="btn-label">
+         <i class="ti-direction"></i>
+       </span>
+       Escolha Única
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 4; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormMultipleChoice" type="button"  class="btn btn-wd btn-info btn-fill w-100">
+       <span class="btn-label">
+         <i class="ti-direction-alt"></i>
+       </span>
+       Escolha Múltipla
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 5; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormScale" type="button" class="btn btn-wd btn-info btn-fill w-100">
+       <span class="btn-label">
+         <i class="ti-bar-chart-alt"></i>
+       </span>
+       Escala
+     </button>
+     <button @click="clearNewQuestion(); new_question.type = 6; new_question.index = 0;" data-toggle="modal" data-target="#myModalFormYesNo" type="button" class="btn btn-wd btn-info btn-fill w-100">
+      <span class="btn-label">
+        <i class="ti-thumb-up"></i>
+      </span>
+      Concordo/Discordo
+    </button>
+  </div>
+</div>
+</div>
+<div class="col-md-8">
+  <div class="card">
+   <div class="header">
+    <h5 class="title">Questões</h5>
+  </div>
+  <div class="content">
+    <div class="table-full-width table-tasks">
+      <table class="table">
+        <tbody>
+          <tr v-for="(question, index) in questions">
+            <td style="white-space: nowrap; padding: 0; width: 0; text-align: center;">
+              <button @click="moveQuestionUp(index)" v-if="index != 0" type="button"  class="btn btn-info btn-simple btn-arrow" >
+                <i class="ti-arrow-up"></i>
+              </button>
+              <button @click="moveQuestionDown(index)" v-if="index != questions.length-1" type="button"  class="btn btn-danger btn-simple btn-arrow">
+                <i class="ti-arrow-down"></i>
+              </button>
+            </td>
+            <td class="text-center">
+              <span>${index+1}</span>
+            </td>
+            <td>
+              <span><strong>${question.question}</span>
+              <span class="help-block">${getTypeQuestion(question.type)}</span>
+            </td>
+            <td class="td-actions text-right">
+              <div class="table-icons">
+                <button @click="new_question.index = index+1; editQuestion(question, index)" type="button" rel="tooltip" title="Editar Questão" class="btn btn-info btn-simple btn-xs" data-original-title="Editar Questão">
+                  <i class="ti-pencil"></i>
+                </button>
+                <button type="button" @click="removeQuestion(index)"  rel="tooltip" title="Remover Questão" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover Questão">
+                  <i class="ti-close"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr v-if="questions.length <= 0">
+            <td>Nenhuma questão adicionada até o momento!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<button v-if="questions.length > 0" @click="formSave()" class="btn btn-success btn-fill btn-wd pull-right">
+  <span class="btn-label">
+    <i class="fa fa-save"></i>
+  </span> Salvar Formulário
+</button><br/><br/>
+</div>
+</div>
+{% endblock %}
+
+{% block extra-modais %}
+{% include 'form/modals/modal_small_text.html' %}
+{% include 'form/modals/modal_big_text.html' %}
+{% include 'form/modals/modal_dropdown.html' %}
+{% include 'form/modals/modal_multiple_choice.html' %}
+{% include 'form/modals/modal_scale.html' %}
+{% include 'form/modals/modal_yes_no.html' %}
+{% endblock %}
+
+{% block extra-javascript %}
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.js"></script>
+
+<script>
+
+  var app = new Vue({
+    el: '#app',
+    delimiters: ['${', '}'],
+    data: {
+      new_question:{
+        //1: Texto Curto
+        //2: Texto Longo
+        //3: Escolha Única
+        //4: Escolha Múltipla
+        //5: Escala
+        //6: Concorco/Discordo
+        type:"",
+        question:"",
+        description:"",
+        max_characters:0,
+        is_required:false,
+        choices:"",
+        max_rating:"10",
+        show_yes_no: false,
+        label_left:"",
+        label_right:"",
+        label_middle:"",
+        //0: Adicionar
+        //<>0: Editar (index)
+        index:0
+      },
+      questions: [],
+      form:{
+        title:"",
+        description:"",
+        questions:[]
+      }
+    },
+    methods:{
+      alterIsRequired(){
+        this.new_question.is_required =  !this.new_question.is_required
+      },
+      getTypeQuestion(option){
+        dict = {
+          "1":"Texto Curto",
+          "2":"Texto Longo",
+          "3":"Escolha Única",
+          "4":"Escolha Múltipla",
+          "5":"Escala",
+          "6":"Concordo/Discordo",
+        }
+
+        return dict[option] 
+      },
+      addQuestion(idModal){
+        self = this
+
+        $("#"+idModal).modal('hide');
+        if (self.new_question.index == 0){ 
+          self.questions.push(Vue.util.extend({}, self.new_question))
+        }else{
+          self.questions[self.new_question.index-1] = Vue.util.extend({}, self.new_question)
+        }
+        self.clearNewQuestion()
+      },
+      clearNewQuestion(){
+        this.new_question.question = ""
+        this.new_question.description = ""
+        this.new_question.max_characters = 0
+        this.new_question.is_required = false
+        this.new_question.max_rating = 10
+        this.new_question.choices = ""
+        this.new_question.show_yes_no = false
+        this.new_question.label_left = ""
+        this.new_question.label_right = ""
+        this.new_question.label_middle = ""
+      },
+      removeQuestion(index){
+        self = this
+        swal({
+          title: 'Tem certeza?',
+          text: "Caso delete não será possível recuperá-la.",
+          type: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#68B3C8',
+          cancelButtonColor: '#eb5e28',
+          confirmButtonText: 'Sim, tenho!',
+          cancelButtonText: 'Cancelar'
+        }).then(function () {
+          self.questions.splice(index, 1)
+        })
+
+      },
+      editQuestion(question, index){
+        self = this
+
+        switch(question.type) {
+          case 1:
+          $("#myModalFormSmallText").modal("show")
+          break;
+          case 2:
+          $("#myModalFormBigText").modal("show")
+          break;
+          case 3:
+          $("#myModalFormDropdown").modal("show")
+          break;
+          case 4:
+          $("#myModalFormMultipleChoice").modal("show")
+          break;
+          case 5:
+          $("#myModalFormScale").modal("show")
+          break;
+          case 6:
+          $("#myModalFormYesNo").modal("show")
+          break;
+        }
+
+        self.new_question.type = question.type
+        self.new_question.question = question.question
+        self.new_question.description = question.description
+        self.new_question.max_characters = question.max_characters
+        self.new_question.is_required = question.is_required
+        self.new_question.choices = question.choices
+        self.new_question.max_rating = question.max_rating
+        self.new_question.show_yes_no = question.show_yes_no
+        self.new_question.label_left = question.label_left
+        self.new_question.label_right = question.label_right
+        self.new_question.label_middle = question.label_middle
+      },
+      moveQuestionDown(index){
+        this.questions.splice(index+1, 0, this.questions.splice(index, 1)[0]);
+      },
+      moveQuestionUp(index){
+        this.questions.splice(index-1, 0, this.questions.splice(index, 1)[0]);
+      },
+      formSave(){
+        self = this
+
+        $.ajax({
+          url: "{% url 'form_save' %}",
+          type: "POST",
+          data: {
+            "title": self.form.title,
+            "description": self.form.description,
+            "questions": JSON.stringify(self.questions),
+            "csrfmiddlewaretoken": "{{csrf_token}}",
+          },
+          success: function (response) {
+            swal({
+              title: "Sucesso!",
+              text: "Formulário cadastrado com sucesso!",
+              type: "success",
+              showCancelButton: false,
+              confirmButtonColor: "#ff9602",
+              confirmButtonText: "Ok!",
+              closeOnConfirm: true
+            },
+            function(){
+             window.location = "{% url 'form_list' %}"
+           });
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            swal({
+              title:"Erro interno! ;(",
+              text:"Aconteceu algum erro inesperado, tente novamente!",
+              type:"error",
+            })
+          }
+        });
+      },
+    },
+    created(){
+
+    }
+  })
+</script>
+{% endblock %}

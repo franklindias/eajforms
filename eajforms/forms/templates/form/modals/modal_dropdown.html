@@ -1,0 +1,49 @@
+<div class="modal fade" style="z-index:5000;" id="myModalFormDropdown" role="dialog" >
+  <div class="modal-dialog" role="document" style="z-index:5000;">
+    <div class="modal-content" style="z-index:5000;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><template v-if="new_question.index == 0">
+          Adicionar
+        </template>
+        <template v-else>
+          Atualizar
+        </template> <b>Escolha Única</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Questão</label>
+          <textarea v-model="new_question.question" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Descrição</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Você pode adicionar uma pequena descrição para explicar sua pergunta."></i>
+          <textarea v-model="new_question.description" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Alternativas</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Adicione as alternativas abaixo, uma por linha."></i>
+          <textarea rows="6" v-model="new_question.choices" class="form-control" rows="2"></textarea>
+          <span class="help-block">Adicione uma alternativa por linha.</span>
+        </div>
+        
+        <div class="form-group">
+          <label class="" @click="alterIsRequired()" >
+            <input v-model="new_question.is_required" type="checkbox" >
+            <span style="vertical-align: super;">Este campo é obrigatório.</span>
+          </label>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" @click="addQuestion('myModalFormDropdown')"><template v-if="new_question.index == 0">
+          Adicionar
+        </template>
+        <template v-else>
+          Atualizar
+        </template> Questão</button>
+      </div>
+    </div>
+  </div>
+</div>

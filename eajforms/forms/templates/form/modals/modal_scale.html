@@ -1,0 +1,59 @@
+<div class="modal fade" style="z-index:5000;" id="myModalFormScale" role="dialog" >
+  <div class="modal-dialog" role="document" style="z-index:5000;">
+    <div class="modal-content" style="z-index:5000;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><template v-if="new_question.index == 0">
+          Adicionar
+        </template>
+        <template v-else>
+          Atualizar
+        </template> <b>Escala</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Questão</label>
+          <textarea v-model="new_question.question" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Descrição</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Você pode adicionar uma pequena descrição para explicar sua pergunta."></i>
+          <textarea v-model="new_question.description" class="form-control" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Classificação máxima</label><i class="fa fa-info-circle text-primary" rel="tooltip" title="Defina a classificação máxima que o usuário poderá escolher em sua resposta"></i>
+          <input type="number" step="1" max="10" min="2" class="form-control" v-model="new_question.max_rating">
+        </div>
+        <div class="row">
+          <div class="col-md-4 text-left">
+            <input v-model="new_question.label_left" type="text" placeholder="Label Esquerdo" class="form-control ">
+          </div>
+          <div class="col-md-4 text-center">
+            <input v-model="new_question.label_middle" type="text" :disabled="new_question.max_rating % 2 == 0" placeholder="Label Central" class="form-control ">
+          </div>
+          <div class="col-md-4 text-right">
+            <input v-model="new_question.label_right" type="text" placeholder="Label Direito" class="form-control ">
+          </div>
+        </div><br/>
+        <div class="form-group">
+          <label class="" @click="alterIsRequired()" >
+            <input v-model="new_question.is_required" type="checkbox" >
+            <span style="vertical-align: super;">Este campo é obrigatório.</span>
+          </label>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" @click="addQuestion('myModalFormScale')"><template v-if="new_question.index == 0">
+          Adicionar
+        </template>
+        <template v-else>
+          Atualizar
+        </template> Questão</button>
+      </div>
+    </div>
+  </div>
+</div>
