@@ -62,20 +62,55 @@ class Alternative(models.Model):
     def __str__(self):
         return self.title
 
+
+class Response(models.Model):
+    person = models.ForeignKey(Person, null=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    apply_form = models.ForeignKey("ApplyForm", default=1)
+    
+    class Meta:
+        verbose_name = "Resposta Central"
+        verbose_name_plural = "Respostas Central"
+
+    def __str__(self):
+        return str(self.create_at)
+
+
 class Answer(models.Model):
+    response = models.ForeignKey(Response, null=True)
+    question = models.ForeignKey(Question)
     text = models.CharField(max_length=255, null=True)
     scale = models.PositiveIntegerField(null=True)
-    option_choice = models.ForeignKey(Alternative, null=True)
-    person = models.ForeignKey(Person, null=True)
+    dont_apply = models.BooleanField('Não se aplica', default=False)
+    OPTION_CHOICES = (
+        (1, "Concordo/Sim"),
+        (2, "Concordo parcialmente/Parcialmente"),
+        (3, "Discordo/Não"),
+
+    )
+    yes_no = models.PositiveIntegerField(choices = OPTION_CHOICES, null=True, blank=True)
 
     class Meta:
         verbose_name = "Resposta"
         verbose_name_plural = "Respostas"
 
     def __str__(self):
-        pass
+        return str(self.question.title) + " - " + str(self.text) + "Null"
 
-class ApllyForm(models.Model):
+class AnswerOption(models.Model):
+    question = models.ForeignKey(Question)
+    response = models.ForeignKey(Response)
+    option_choice = models.ForeignKey(Alternative, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Alternativa selecionada"
+        verbose_name_plural = "Alternativa selecionada"
+
+    def __str__(self):
+        return self.question.title + " / " + self.option_choice.title
+
+
+class ApplyForm(models.Model):
     form = models.ForeignKey(Form)
     DOCENTE = 1
     COORDINATOR = 2
@@ -90,3 +125,19 @@ class ApllyForm(models.Model):
     )
     type_evaluated = models.PositiveIntegerField('Tipo de Avaliado',choices=TYPE_EVALUATED_CHOICE)
     login_required = models.BooleanField('Login é obrigatório?', default=False)
+    create_at = models.DateTimeField(auto_now_add=True)
+    access_code = models.CharField('código de acesso', unique=True, max_length=64)
+    OPEN = 1
+    CLOSE = 2
+    STATUS_FORM_CHOICES = (
+        (OPEN, "Aberto"),
+        (CLOSE, "Fechado"),
+    )
+    status = models.PositiveIntegerField(choices = STATUS_FORM_CHOICES, default=1)
+
+    class Meta:
+        verbose_name = "Formulário Aplicado"
+        verbose_name_plural = "Formulários Aplicados"
+
+    def __str__(self):
+        return self.form.title

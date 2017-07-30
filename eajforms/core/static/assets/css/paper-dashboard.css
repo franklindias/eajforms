@@ -7751,9 +7751,8 @@ star {
   padding: 3px 8px;
   border-radius: 12px;
   color: #FFFFFF;
-  font-weight: 500;
-  font-size: 0.75em;
-  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.9em;
   display: inline-block;
   line-height: 1.5em;
 }

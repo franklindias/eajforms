@@ -3,212 +3,230 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'assets/img/favicon.png' %}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{% static 'assets/img/favicon.png' %}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>EAJ Forms - Responder Formulário
-        {% block title-page %}
-        {% endblock %}
-    </title>
+  <title>EAJ Forms - Responder Formulário
+    {% block title-page %}
+    {% endblock %}
+  </title>
 
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+  <meta name="viewport" content="width=device-width" />
 
-    <!-- Bootstrap core CSS     -->
-    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" />
+  <!-- Bootstrap core CSS     -->
+  <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" />
 
-    <link href="{% static 'assets/css/utilities.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/utilities.css' %}" rel="stylesheet">
 
-    <!--  Paper Dashboard core CSS    -->
-    <link href="{% static 'assets/css/paper-dashboard.css' %}" rel="stylesheet" />
+  <!--  Paper Dashboard core CSS    -->
+  <link href="{% static 'assets/css/paper-dashboard.css' %}" rel="stylesheet" />
 
+  <!--  Fonts and icons     -->
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+  <link href="{% static 'assets/css/themify-icons.css' %}" rel="stylesheet">
 
-    <!--  Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-    <link href="{% static 'assets/css/themify-icons.css' %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-slider.min.css' %}">
 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/css/bootstrap-slider.min.css">
-    
-    <style>
-        .main-panel{
-            height: 100vh; !important;
-        }
-    </style>
+  <style>
+    .main-panel{
+      height: 100vh; !important;
+    }
+    .help-block{
+      margin-bottom: 30px;
+    }
+    label.label-option{
+      font-weight: initial;
+    }
+  </style>
 
 </head>
 <body>
-    <div id="app">
-        <div class="wrapper">
-            <div class="main-panel" style="height: 100vh; !important; float: initial; width: initial;">
+  <div id="app">
+    <div class="wrapper">
+      <div class="main-panel" style="height: 100vh; !important; float: initial; width: initial;">
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+             <div class="col-md-8 col-md-offset-2">
+              <h4 class="title text-center">{{form.title|lower|capfirst}}</h4>
+              <p class="category" style="text-align: justify;" >{{form.description}}</p><br/>
+              <div class="card">
                 <div class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                         <div class="col-md-8 col-md-offset-2">
-                            <h4 class="title text-center">{{form.title|lower|capfirst}}</h4>
-                            <p class="category text-center">{{form.description}}</p><br/>
-                            <div class="card">
-                                <div class="content">
-                                    <form action="" method="POST">
-                                        {% csrf_token %}
-                                        {% for question in form.question_set.all %}
-                                        {% if question.type_question == 1 %}
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                  <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }} </label>
-                                                  <input {{ question.is_required|yesno:"required," }} 
-                                                  {% if question.max_size != 0 %}
-                                                  maxlength="{{question.max_size}}" 
-                                                  {% endif %}
-                                                  type="text" 
-                                                  class="form-control"></textarea>
-                                                  <span class="help-block">{{question.description|lower|capfirst}}</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      {% elif question.type_question == 2 %}
-                                      <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                              <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
-                                              <textarea {{ question.is_required|yesno:"required," }} 
-                                              class="form-control"
-                                              {% if question.max_size != 0 %}
-                                              maxlength="{{question.max_size}}" 
-                                              {% endif %}></textarea>
-                                              <span class="help-block">{{question.description|lower|capfirst}}</span>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  {% elif question.type_question == 3 %}
-                                  <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                          <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
-                                          <select {{ question.is_required|yesno:"required," }} name="" id="" class="form-control">
-                                              {% for alternative in question.alternative_set.all  %}
-                                              <option value="{{alternative.pk}}">{{alternative.title}}</option>
-                                              {% endfor %}
-                                          </select>
-                                          <span class="help-block">{{question.description|lower|capfirst}}</span>
-                                      </div>
-                                  </div>
-                              </div>
-                              {% elif question.type_question == 4 %}       
-                              <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
-                              <div class="row">
-                                  {% for alternative in question.alternative_set.all  %}
-                                  <div class="{% if forloop.counter|divisibleby:2 %}col-md-8{%else%}col-md-4{% endif %}">
-                                      <div class="checkbox" style="margin-top: initial;" >
-                                       <input type="checkbox" class="checkbox" value="{{alternative.pk}}">
-                                       <label for="checkbox2">
-                                        {{alternative.title|lower|capfirst}}
-                                    </label>
-                                </div>
-                            </div>
+                  <form action="{% url 'form_response_save' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{form.pk}}" name="form_id">
+                    <input type="hidden" value="{{apply_form.access_code}}" name="apply_form_access_code">
+                    {% for question in form.question_set.all %}
+                    {% if question.type_question == 1 %}
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }} </label>
+                          <input {{ question.is_required|yesno:"required," }} 
+                          {% if question.max_size != 0 %}
+                          maxlength="{{question.max_size}}" 
+                          {% endif %}
+                          type="text" 
+                          class="form-control"
+                          name="question_{{question.pk}}">
+                          <span class="help-block">{{question.description|lower|capfirst}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {% elif question.type_question == 2 %}
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
+                          <textarea {{ question.is_required|yesno:"required," }} 
+                          class="form-control"
+                          {% if question.max_size != 0 %}
+                          maxlength="{{question.max_size}}" 
+                          {% endif %}
+                          name="question_{{question.pk}}"></textarea>
+                          <span class="help-block">{{question.description|lower|capfirst}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {% elif question.type_question == 3 %}
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
+                          <select name="question_{{question.pk}}" {{ question.is_required|yesno:"required," }} name="" id="" class="form-control">
+                            <option value="" disabled selected>Selecione uma das opções</option>
+                            {% for alternative in question.alternative_set.all  %}
+                            <option value="{{alternative.pk}}">{{alternative.title}}</option>
                             {% endfor %}
+                          </select>
+                          <span class="help-block">{{question.description|lower|capfirst}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {% elif question.type_question == 4 %}       
+                    <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
+                    <div class="row">
+                      {% for alternative in question.alternative_set.all  %}
+                      <div class="{% if forloop.counter|divisibleby:2 %}col-md-8{%else%}col-md-4{% endif %}">
+                        <div class="" style="margin-top: initial;" >
+                         <input id="question_{{question.pk}}_alternative_{{alternative.pk}}" name="question_{{question.pk}}" type="checkbox" class="" value="{{alternative.pk}}">
+                         <label class="label-option" for="question_{{question.pk}}_alternative_{{alternative.pk}}">
+                          {{alternative.title|lower|capfirst}}
+                        </label>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <span class="help-block">{{question.description|lower|capfirst}}</span>
+                  {% elif question.type_question == 5 %}
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>{{ forloop.counter }} - {{question.title|lower|capfirst}} {{ question.is_required|yesno:"*," }}</label><br/>
+                        <input {{ question.is_required|yesno:"required," }} style="width:100%; margin: 0 auto;"
+                        type="text"
+                        name="question_{{question.pk}}"
+                        data-provide="slider"
+                        data-slider-min="1"
+                        data-slider-max="{{question.max_scale}}"
+                        data-slider-step="1"
+                        data-slider-value="1"
+                        >
+                        <div class="row">
+                          <div class="col-md-4 text-left">
+                            {{question.left_label|lower|capfirst}}
+                          </div>
+                          <div class="col-md-4 text-center">
+                            {{question.middle_label|lower|capfirst}}
+                          </div>
+                          <div class="col-md-4 text-right">
+                            {{question.right_label|lower|capfirst}}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="" style="margin-top: initial;">
+                              <input id="not_apply_question_{{question.pk}}" name="not_apply_question_{{question.pk}}" type="checkbox" class="" value="1">
+                              <label class="label-option" for="not_apply_question_{{question.pk}}">
+                                Não se aplica (Não precisei de nenhum desses serviços)
+                              </label>
+                            </div>
+                          </div>
                         </div>
                         <span class="help-block">{{question.description|lower|capfirst}}</span>
-                        {% elif question.type_question == 5 %}
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                  <label>{{ forloop.counter }} - {{question.title|lower|capfirst}} {{ question.is_required|yesno:"*," }}</label><br/>
-
-                                  <input {{ question.is_required|yesno:"required," }} style="width:100%; margin: 0 auto;"
-                                  type="text"
-                                  name="somename"
-                                  data-provide="slider"
-                                  data-slider-min="1"
-                                  data-slider-max="{{question.max_scale}}"
-                                  data-slider-step="1"
-                                  data-slider-value="1"
-                                  >
-                                  <div class="row">
-                                      <div class="col-md-4 text-left">
-                                          {{question.left_label|lower|capfirst}}
-                                      </div>
-                                      <div class="col-md-4 text-center">
-                                          {{question.middle_label|lower|capfirst}}
-                                      </div>
-                                      <div class="col-md-4 text-right">
-                                          {{question.right_label|lower|capfirst}}
-                                      </div>
-                                  </div>
-                                  <span class="help-block">{{question.description|lower|capfirst}}</span>
-                              </div>
-                          </div>
                       </div>
-                      {% elif question.type_question == 6 %}
-                      <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
-                      <div class="row">
-                          <div class="col-md-12">
-                              <div class="radio" style="margin-top: initial;">
-                                  <input type="radio" class="radio" value="1">
-                                  <label for="checkbox2">
-                                     {{ question.show_yes_no|yesno:"Sim,Concordo" }}
-                                 </label>
-                             </div>
-                         </div>
-                         <div class="col-md-12">
-                          <div class="radio" style="margin-top: initial;">
-                              <input type="radio" class="radio" value="2">
-                              <label for="checkbox2">
-                                  {{ question.show_yes_no|yesno:"Parcialmente,Concordo parcialmente" }}
-                              </label>
-                          </div>
-                      </div>
-                      <div class="col-md-1">
-                          <div class="radio" style="margin-top: initial;">
-                              <input type="radio" class="radio" value="2">
-                              <label for="checkbox2">
-                                {{ question.show_yes_no|yesno:"Não,Discordo" }}
-                            </label>
-                        </div>
                     </div>
+                  </div>
+                  {% elif question.type_question == 6 %}
+                  <label>{{ forloop.counter }} - {{question.title|lower|capfirst}}{{ question.is_required|yesno:"*," }}</label>
+                  <div class="row">
                     <div class="col-md-12">
-                      <div class="radio" style="margin-top: initial;">
-                          <input type="radio" class="radio" value="2">
-                          <label for="checkbox2">
-                            Não se aplica (Não precisei de nenhum desses serviços)
-                        </label>
+                      <div class="" style="margin-top: initial;">
+                        <input {{ question.is_required|yesno:"required," }} id="yes_question_{{question.pk}}" name="question_{{question.pk}}" type="radio" class="" value="1">
+                        <label class="label-option" for="yes_question_{{question.pk}}">
+                         {{ question.show_yes_no|yesno:"Sim,Concordo" }}
+                       </label>
+                     </div>
+                   </div>
+                   <div class="col-md-12">
+                    <div class="" style="margin-top: initial;">
+                      <input id="yesno_question_{{question.pk}}" name="question_{{question.pk}}" type="radio" class="" value="2">
+                      <label class="label-option" for="yesno_question_{{question.pk}}">
+                        {{ question.show_yes_no|yesno:"Parcialmente,Concordo parcialmente" }}
+                      </label>
                     </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="" style="margin-top: initial;">
+                    <input id="no_question_{{question.pk}}" name="question_{{question.pk}}" type="radio" class="" value="3">
+                    <label class="label-option" for="no_question_{{question.pk}}">
+                        {{ question.show_yes_no|yesno:"Não,Discordo" }}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="" style="margin-top: initial;">
+                      <input name="question_{{question.pk}}" id="not_apply_question_{{question.pk}}" type="radio" class="" value="not_apply">
+                      <label class="label-option" for="not_apply_question_{{question.pk}}">
+                        Não se aplica (Não precisei de nenhum desses serviços)
+                      </label>
+                    </div>
+                  </div>
                 </div>
+                <span class="help-block">{{question.description|lower|capfirst}}</span>
+                {% endif %}
+                {% endfor %}
+              </div>
             </div>
-            <span class="help-block">{{question.description|lower|capfirst}}</span>
-            {% endif %}
-            {% endfor %}
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+          <button class="btn btn-success btn-lg btn-fill btn-wd">
+            <span class="btn-label">
+              <i class="fa fa-save"></i>
+            </span> Enviar Respostas
+          </button>
+        </div>
+      </div>
     </div>
-</div>
-</div>
-</div>
-<div class="row">
-  <div class="col-md-8 col-md-offset-2 text-center">
-      <button class="btn btn-success btn-fill btn-wd">
-          <span class="btn-label">
-            <i class="fa fa-save"></i>
-        </span> Enviar Respostas
-    </button>
-</div>
-</div>
-</div>
-</form>
-<footer class="footer">
+  </form>
+  <footer class="footer">
     <div class="container-fluid">
-        <nav class="pull-left">
-            <ul>
-            </ul>
-        </nav>
-        <div class="copyright pull-right">
-            &copy; 2017
-            , feito com <i class="fa fa-github"></i> por <a href="#">EAJ Forms</a>
-        </div>
+      <nav class="pull-left">
+        <ul>
+        </ul>
+      </nav>
+      <div class="copyright pull-right">
+        &copy; 2017, desenvolvido por <a href="#">EAJ Forms</a>
+      </div>
     </div>
-</footer>
+  </footer>
 </div>
 </div>
 </div>
@@ -221,20 +239,11 @@
 <!--  Forms Validations Plugin -->
 <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
 
-<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
-<script src="{% static 'assets/js/moment.min.js' %}"></script>
-
-<!--  Date Time Picker Plugin is included in this js file -->
-<script src="{% static 'assets/js/bootstrap-datetimepicker.js' %}"></script>
-
 <!--  Select Picker Plugin -->
 <script src="{% static 'assets/js/bootstrap-selectpicker.js' %}"></script>
 
 <!--  Checkbox, Radio, Switch and Tags Input Plugins -->
 <script src="{% static 'assets/js/bootstrap-checkbox-radio-switch-tags.js' %}"></script>
-
-<!--  Bootstrap Table Plugin    -->
-<script src="{% static 'assets/js/bootstrap-table.js' %}"></script>
 
 <!-- Paper Dashboard PRO Core javascript and methods for Demo purpose -->
 <script src="{% static 'assets/js/paper-dashboard.js' %}"></script>
