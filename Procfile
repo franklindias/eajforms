@@ -1,1 +1,1 @@
-web: gunicorn swfevents.wsgi --log-file -
+web: gunicorn eajforms.wsgi --log-file -
