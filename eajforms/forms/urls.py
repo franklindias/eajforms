@@ -6,5 +6,8 @@ urlpatterns = [
     url(r'^form/save/$', forms_views.form_save, name='form_save'),
     url(r'^form/list/$', forms_views.form_list, name='form_list'),
     url(r'^form/(?P<pk>\d+)/apply/$', forms_views.form_apply, name='form_apply'),
-    url(r'^form/(?P<code>\d+)/response/$', forms_views.form_response, name='form_response')
+    url(r'^apply_form/(?P<access_code>\w+)/response/$', forms_views.form_response, name='form_response'),
+    url(r'^apply_form/response/save/$', forms_views.form_response_save, name='form_response_save'),
+    url(r'^apply_form/list/$', forms_views.apply_form_list, name='apply_form_list'),
+    url(r'^apply_form/(?P<access_code>\w+)/result/$', forms_views.apply_form_result, name='apply_form_result'),
 ]

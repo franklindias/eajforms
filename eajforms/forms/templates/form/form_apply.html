@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title-page %} Aplicar Formulário {% endblock %}
 
 {% block title-navbar-page %} Aplicar Formulário {% endblock %}
 
 {% block extra-css %}
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/sweetalert2.min.css' %}">
 <style>
     .btn-arrow{
         padding:0px !important;
@@ -17,16 +18,19 @@
     .btn-action{
         font-size: 16px;
     }
+    label.label-option{
+      font-weight: initial;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="row">
- <div class="col-md-12">
+   <div class="col-md-12">
     <div class="card">
         <div class="header">
             <h5 class="title">{{form.title}}</h5>
-            <p class="category ">{{form.description}}</p>
+            <p class="category" style="text-align:justify;">{{form.description}}</p>
         </div>
         <div class="content">
             <div class="row">
@@ -42,7 +46,17 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="checkbox" style="margin-top: initial;" >
+               <input id="" name="" type="checkbox" class="checkbox" value="1">
+               <label class="label-option" for="">
+                  Obrigatório se identificar para responder
+              </label>
+          </div>
+      </div>
+  </div>
+</div>
 </div>
 </div>
 </div>

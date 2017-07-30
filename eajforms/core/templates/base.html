@@ -98,27 +98,56 @@
 								<p>Dashboard</p>
 							</a>
 						</li>
-						<li class="active">
-							<a data-toggle="collapse" href="#dashboardOverview" aria-expanded="true">
-								<i class="ti-panel"></i>
+						<li class="{% if url_name == 'form_new' or url_name == 'form_list' or url_name == 'form_apply' %}active{% endif %}">
+							<a data-toggle="collapse" href="#dashboardOverview" aria-expanded="false">
+								<i class="ti-clipboard"></i>
 								<p>Formulários
 									<b class="caret"></b>
 								</p>
 							</a>
-							<div class="collapse in" id="dashboardOverview">
+							<div class="collapse" id="dashboardOverview">
 								<ul class="nav">
 									<li class="{% if url_name == 'form_new' %}active{% endif %}">
-										<a href="{% url 'form_new' %}">Novo</a></li>
+										<a href="{% url 'form_new' %}">Novo</a>
+									</li>
 									<li class="{% if url_name == 'form_list' %}active{% endif %}">
-										<a href="{% url 'form_list' %}">Listagem</a></li>
+										<a href="{% url 'form_list' %}">Listagem</a>
+									</li>
 								</ul>
 							</div>
 						</li>
-						<li>
-							<a href="../charts.html">
-								<i class="ti-write"></i>
-								<p>Relatórios</p>
+						<li class="{% if url_name == 'apply_form_list' or url_name == 'apply_form_result' %}active{% endif %}">
+							<a href="{% url 'apply_form_list' %}" aria-expanded="false">
+								<i class="ti ti-view-list-alt"></i>
+								<p>Respostas
+								</p>
 							</a>
+						</li>
+						<li>
+							<a data-toggle="collapse" href="#estrutura" aria-expanded="false">
+								<i class="ti-package"></i>
+								<p>Estrutura
+									<b class="caret"></b>
+								</p>
+							</a>
+							<div class="collapse" id="estrutura">
+								<ul class="nav">
+									<li class=""><a href="">Polos</a>
+									</li>
+									<li class="">
+										<a href="">Cursos</a>
+									</li>
+									<li class="">
+										<a href="{% url 'class_list' %}">Turmas</a>
+									</li>
+									<li class="">
+										<a href="">Servidores</a>
+									</li>
+									<li class="">
+										<a href="">Alunos</a>
+									</li>
+								</ul>
+							</div>
 						</li>
 						<li>
 							<a data-toggle="collapse" href="#settings" aria-expanded="false">
@@ -129,8 +158,8 @@
 							</a>
 							<div class="collapse" id="settings">
 								<ul class="nav">
-									<li><a href="overview.html">Overview</a></li>
-									<li><a href="stats.html">Stats</a></li>
+									<li><a href="overview.html">Meu perfil</a></li>
+									<li><a href="stats.html">Usuários</a></li>
 								</ul>
 							</div>
 						</li>
@@ -226,7 +255,7 @@
 
 	</div>
 
-	
+
 	<!--   Core JS Files. Extra: PerfectScrollbar + TouchPunch libraries inside jquery-ui.min.js   -->
 	<script src="{% static 'assets/js/jquery-1.10.2.js' %}" type="text/javascript"></script>
 	<script src="{% static 'assets/js/jquery-ui.min.js' %}" type="text/javascript"></script>

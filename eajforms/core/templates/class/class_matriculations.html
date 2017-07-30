@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title-page %} Listagem de Matriculados {% endblock %}
+
+{% block title-navbar-page %} Matriculados {% endblock %}
+
+{% block extra-css %}
+<link href="{% static 'assets/css/sweetalert2.min.css' %}" rel="stylesheet">
+<style>
+    .btn-arrow{
+        padding:0px !important;
+    }
+    input[type="checkbox"]{
+        width: 18px !important;
+        height: 18px !important;
+    }
+    .btn-action{
+        font-size: 16px;
+    }
+    table.table-detail > tbody > tr > th, table.table-detail > tbody > tr > td{
+        border-top: 0px !important;
+    }
+    table.table-detail > tbody > tr > th{
+
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+   <div class="col-md-12">
+    <div class="card">
+      <div class="content table-responsive">
+          <table class="table table-detail">
+            <tbody>
+                <tr>
+                    <th>Turma</th><td>{{class.name}}</td>
+                    <th>Início</th><td colspan="2">{{class.start_at|date:'d/m/Y'}}</td>
+                </tr>
+                <tr>
+                    <th>Curso</th><td>{{class.course_pole.course.name}}</td>
+                    <th>Término</th><td  colspan="2">{{class.end_at|date:'d/m/Y'}}</td>
+                </tr>
+                <tr>
+                    <th>Polo</th><td>{{class.course_pole.pole.name}}</td>
+                    <th>Matriculados</th>
+                    <form action="{% url 'class_matriculation_upload' %}" enctype="multipart/form-data" method="POST">
+                        <td>
+                            {% csrf_token %}
+                            <input type="hidden" name="class_course_id" value="{{class.id}}">
+                            {{ form.file }}
+                            <p class="category text-danger">{{ form.file.errors }}</p>
+                        </td>
+                        <td> <input class="btn btn-xs pull-right" type="submit" value="Enviar"></td>
+                    </form>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+<div class="row">
+   <div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h5 class="title">{{class.matriculation_set.count}} Matriculados</h5>
+        </div>
+        <div class="content table-responsive">
+           <table class="table">
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Email</th>
+                    <th>Situação</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for matriculation in class.matriculation_set.all %}
+                <tr>
+                    <td>{{matriculation.student.full_name}}</td>
+                    <td>
+                        {{matriculation.student.email}}
+                    </td>
+                    <td>
+                        <span class="label 
+                        {% if matriculation.situation == 1 %}
+                            label-success
+                        {% elif matriculation.situation == 2 %}
+                            label-danger
+                        {% elif matriculation.situation == 3 %}
+                            label-warning
+                        {% elif matriculation.situation == 4 %}
+                            label-primary
+                        {% endif %}
+                        ">
+                            {{matriculation.get_situation_display}}
+                        </span>
+                    </td>
+                    <td class="text-center" style="white-space: nowrap;">
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra-modais %}
+{% endblock %}
+
+{% block extra-javascript %}
+<script src="{% static 'assets/js/sweetalert2.min.js' %}"></script>
+{% endblock %}

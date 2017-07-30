@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title-page %} Listagem dos Formulários Aplicados {% endblock %}
+
+{% block title-navbar-page %} Formulários Aplicados {% endblock %}
+
+{% block extra-css %}
+<link href="{% static 'assets/css/sweetalert2.min.css' %}" rel="stylesheet">
+<style>
+    .btn-arrow{
+        padding:0px !important;
+    }
+    input[type="checkbox"]{
+        width: 18px !important;
+        height: 18px !important;
+    }
+    .btn-action{
+        font-size: 16px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+ <div class="col-md-12">
+    <div class="card">
+      <div class="content">
+         <table class="table">
+            <thead>
+                <tr>
+                    <th style="width:40%;">Formulário</th>
+                    <th>Avaliado</th>
+                    <th class="text-center">Situação</th>
+                    <th class="text-center">Total de Respostas</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for apply_form in apply_forms reversed %}
+                <tr>
+                    <td>
+                        <span><strong>{{apply_form.form.title}}</strong> </span><br/>
+                        <p class="category" style="text-align:justify;">{{apply_form.form.description|truncatechars:85}}</p>
+                    </td>
+                    <td>
+                        <span><strong>Agronomia</strong> </span><br/>
+                        <p class="category" style="text-align:justify;">
+                            {{apply_form.get_type_evaluated_display}}
+                        </p>
+                    </td>
+                    <td class="text-center">
+                    {% if apply_form.status == 1 %}
+                        <span class="label label-success">Aberto</span>
+                    {% else %}
+                        <span class="label label-danger">Finalizado</span>
+                    {% endif  %}
+                    </td>
+                    <td class="text-center">
+                        {{ apply_form.response_set.count }}
+                    </td>
+                    <td class="text-center" style="white-space: nowrap;">
+                       
+                        <a href="{% url 'apply_form_result' access_code=apply_form.access_code %}" rel="tooltip" title="" class="btn btn-success btn-simple btn-xs btn-action" data-original-title="Respostas">
+                            <i class="ti-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra-modais %}
+{% endblock %}
+
+{% block extra-javascript %}
+<script src="{% static 'assets/js/sweetalert2.min.js' %}"></script>
+{% endblock %}
