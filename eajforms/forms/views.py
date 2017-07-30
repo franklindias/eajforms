@@ -46,8 +46,6 @@ def form_response(request, access_code):
 def form_response_save(request):
     form = Form.objects.get(pk=request.POST["form_id"])
     response = Response()
-    print ("$$$$$$$$$$$$$$$$")
-    print (request.POST["apply_form_access_code"])
     response.apply_form = get_object_or_404(ApplyForm, access_code=request.POST["apply_form_access_code"])
     response.save()
 
