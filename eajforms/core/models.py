@@ -15,7 +15,7 @@ class Person(User):
 
 
 class Docente(Person):
-
+    
     class Meta:
         verbose_name = "docente"
         verbose_name_plural = "docentes"
