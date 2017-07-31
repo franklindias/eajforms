@@ -91,6 +91,35 @@
 				</div>
 				{% with request.resolver_match.url_name as url_name %}
 				<div class="sidebar-wrapper">
+					<div class="user">
+						<div class="photo">
+							<img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png">
+						</div>
+						<div class="info">
+							<a data-toggle="collapse" href="#collapseExample" class="collapsed" aria-expanded="false">
+								<span>
+									{{ request.user.username }}
+									<b class="caret"></b>
+								</span>
+							</a>
+							<div class="clearfix"></div>
+
+							<div class="collapse" id="collapseExample" aria-expanded="false" style="height: 0px;">
+								<ul class="nav">
+									<li>
+										<a href="">
+											<span class="sidebar-normal">Meu Perfil</span>
+										</a>
+									</li>
+									<li>
+										<a href="{% url 'logout'  %}">
+											<span class="sidebar-normal">Sair</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
 					<ul class="nav">
 						<li>
 							<a href="{% url 'dashboard' %}">

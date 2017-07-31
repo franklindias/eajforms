@@ -80,7 +80,7 @@
             <tbody>
                 {% for matriculation in class.matriculation_set.all %}
                 <tr>
-                    <td>{{matriculation.student.full_name}}</td>
+                    <td>{{matriculation.student.full_name|title}}</td>
                     <td>
                         {{matriculation.student.email}}
                     </td>
