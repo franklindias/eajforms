@@ -153,7 +153,7 @@ class CoordinatorCourse(models.Model):
         verbose_name_plural = "Coordenadores de Curso"
 
     def __str__(self):
-        return self.cordinator + " - " + self.course
+        return self.docente.full_name + " - " + self.course
 
 
 class CoordinatorPole(models.Model):
@@ -171,4 +171,4 @@ class CoordinatorPole(models.Model):
         verbose_name_plural = "Coordenadores de Polo"
 
     def __str__(self):
-        return self.cordinator + " - " + self.pole
+        return self.docente.full_name + " - " + self.pole
