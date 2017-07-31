@@ -67,7 +67,7 @@
 						<div class="photo">
 							<img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png">
 						</div>
-						<div class="info">
+						<div class= "info">
 							<a data-toggle="collapse" href="#collapseExample" class="collapsed" aria-expanded="false">
 								<span>
 									{{ request.user.username }}
@@ -136,7 +136,7 @@
 									<li class=""><a href="">Polos</a>
 									</li>
 									<li class="">
-										<a href="">Cursos</a>
+										<a href="{% url 'course_list' %}">Cursos</a>
 									</li>
 									<li class="">
 										<a href="{% url 'class_list' %}">Turmas</a>

@@ -8,4 +8,8 @@ urlpatterns = [
 
     url(r'^docente/list/$', core_views.docente_list, name='docente_list'),
     url(r'^docente/upload/$', core_views.docente_upload, name='docente_upload'),
+
+    url(r'^course/list/$', core_views.course_list, name='course_list'),
+
+    url(r'^avaluated/load/$', core_views.load_avaluated_by_type, name='load_avaluated_by_type'),
 ]

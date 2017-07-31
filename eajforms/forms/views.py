@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404, resolve_url as
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
 from .models import Form, Question, Alternative, Answer, AnswerOption, Response, ApplyForm
+from eajforms.core.models import CoordinatorPole
 from django.db import transaction
 
 
@@ -32,7 +33,10 @@ def apply_form_result(request, access_code):
 
 def form_apply(request, pk):
     form = get_object_or_404(Form, pk=pk)
-    return render(request, 'form/form_apply.html', {"form":form})
+
+    coordinators_pole = CoordinatorPole.objects.filter(status=1)
+
+    return render(request, 'form/form_apply.html', {"form":form, "coordinators_pole":coordinators_pole})
 
 
 def form_response(request, access_code):

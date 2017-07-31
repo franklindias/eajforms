@@ -53,7 +53,7 @@ class DocenteCoursePole(models.Model):
         verbose_name_plural = "Docentes em um curso"
 
     def __str__(self):
-        return self.docente.name
+        return self.docente.full_name
 
 
 class Pole(models.Model):
@@ -171,4 +171,4 @@ class CoordinatorPole(models.Model):
         verbose_name_plural = "Coordenadores de Polo"
 
     def __str__(self):
-        return self.docente.full_name + " - " + self.pole.name
+        return self.pole.name + " - "+ self.docente.full_name

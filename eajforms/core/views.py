@@ -6,7 +6,10 @@ import json, csv, os, random
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import transaction
-from .models import ClassCourse, Student, Matriculation, Docente
+from .models import ClassCourse, Student, Matriculation, Docente, Course, \
+                    CoordinatorPole, CoordinatorCourse, DocenteCoursePole, Pole, Course
+from django.http import JsonResponse, Http404
+from django.core import serializers
 
 
 def home(request):
@@ -39,6 +42,23 @@ def class_list(request):
 
 
 @login_required
+def course_list(request):
+    course_list = Course.objects.all()
+
+    paginator = Paginator(course_list, 10)
+
+    page = request.GET.get('page')
+    try:
+        course_list = paginator.page(page)
+    except PageNotAnInteger:
+        course_list = paginator.page(1)
+    except EmptyPage:
+        course_list = paginator.page(paginator.num_pages)
+
+    return render(request, 'course/course_list.html', {"course_list":course_list})
+
+
+@login_required
 def docente_list(request):
     form = DocentesUploadFileForm()
 
@@ -56,7 +76,7 @@ def docente_list(request):
 
     return render(request, 'docente/docente_list.html', {"docente_list":docente_list, "form":form})
 
-
+@login_required
 @transaction.atomic
 def docente_upload(request):
     if request.method == "POST":
@@ -97,7 +117,7 @@ def class_matriculations(request, pk):
     class_ = ClassCourse.objects.get(pk=pk)
     return render(request, 'class/class_matriculations.html', {"class":class_, "form":form})
 
-
+@login_required
 @transaction.atomic
 def class_matriculation_upload(request):
     if request.method == "POST":
@@ -149,6 +169,56 @@ def class_matriculation_upload(request):
         class_ = ClassCourse.objects.get(pk=int(request.POST['class_course_id']))
         return render(request, 'class/class_matriculations.html', {"class":class_, "form":form})
 
+
+@login_required
 def _delete_file(path):
     if os.path.isfile(path):
         os.remove(path)
+
+
+@login_required
+def load_avaluated_by_type(request):
+    if not request.is_ajax():
+        raise Http404
+
+    type_evaluated = int(request.POST['type'])
+
+    list_data = []
+
+    if type_evaluated == 1:
+        coordinators_pole = CoordinatorPole.objects.filter(status=1)
+        for cp in coordinators_pole:
+            list_data.append({
+                "value":cp.pk,
+                "display":cp.pole.name + " - " + cp.docente.full_name
+            })
+    elif type_evaluated == 2:
+        coordinators_course = CoordinatorCourse.objects.filter(status=1)
+        for cc in coordinators_course:
+            list_data.append({
+                "value":cc.pk,
+                "display":cc.course.name + " - " + cc.docente.full_name
+            })
+    elif type_evaluated == 3 or type_evaluated == 4 or type_evaluated == 5 or type_evaluated == 6 or type_evaluated == 7:
+        docente_course_pole = DocenteCoursePole.objects.filter(status=1, type_docente=type_evaluated-2)
+        for dcp in docente_course_pole:
+            list_data.append({
+                "value":dcp.pk,
+                "display":dcp.course_pole.pole.name + " | " + dcp.course_pole.course.name + " - " + dcp.docente.full_name
+            })
+    elif type_evaluated == 8:
+        course_list = Course.objects.all()
+        for c in course_list:
+            list_data.append({
+                "value":c.pk,
+                "display":c.name
+            })
+    elif type_evaluated == 9:
+        pole_list = Pole.objects.all()
+        for p in pole_list:
+            list_data.append({
+                "value":p.pk,
+                "display":p.name
+            })
+
+    return JsonResponse(list_data, safe=False)
