@@ -15,6 +15,24 @@ class Person(User):
 
 
 class Docente(Person):
+
+    class Meta:
+        verbose_name = "docente"
+        verbose_name_plural = "docentes"
+
+    def __str__(self):
+        return self.full_name
+
+
+class DocenteCoursePole(models.Model):
+    course_pole = models.ForeignKey('CoursePole')
+    docente = models.ForeignKey('Docente')
+    create_at = models.DateField(auto_now_add=True)
+    STATUS_CHOICES = (
+        (1, "Ativado"),
+        (2, "Desativado")
+        )
+    status = models.PositiveIntegerField(choices=STATUS_CHOICES)
     TEACHER = 1
     SEARCH_TEACHER = 2
     MEDIATOR_TEACHER = 3
@@ -28,25 +46,7 @@ class Docente(Person):
         (DISTANCE_TUTOR, "Tutor EAD"),
 
     )
-    type_docente = models.PositiveIntegerField(choices=TYPE_DOCENTE_CHOICE)
-
-    class Meta:
-        verbose_name = "docente"
-        verbose_name_plural = "docentes"
-
-    def __str__(self):
-        pass
-
-
-class DocenteCoursePole(models.Model):
-    course_pole = models.ForeignKey('CoursePole')
-    docente = models.ForeignKey('Docente')
-    create_at = models.DateField(auto_now_add=True)
-    STATUS_CHOICES = (
-        (1, "Ativado"),
-        (2, "Desativado")
-        )
-    status = models.PositiveIntegerField(choices=STATUS_CHOICES)
+    type_docente = models.PositiveIntegerField(choices=TYPE_DOCENTE_CHOICE, default=1)
 
     class Meta:
         verbose_name = "Docente em um curso"
@@ -54,16 +54,6 @@ class DocenteCoursePole(models.Model):
 
     def __str__(self):
         return self.docente.name
-
-
-class Coordinator(Person):
-
-    class Meta:
-        verbose_name = "Coordenador"
-        verbose_name_plural = "Coordenadores"
-
-    def __str__(self):
-        pass
 
 
 class Pole(models.Model):
@@ -116,7 +106,7 @@ class Matriculation(models.Model):
         (LOCKED, "Trancado"),
         (FINISHED, "Finalizado")
         )
-    situation = models.PositiveIntegerField('Situação da Matrícula',choices=SITUATION_CHOICES, default=1)
+    situation = models.PositiveIntegerField('Situação da Matrícula', choices=SITUATION_CHOICES, default=1)
 
     class Meta:
         verbose_name = "Matrícula"
@@ -150,12 +140,13 @@ class CoursePole(models.Model):
 
 class CoordinatorCourse(models.Model):
     course = models.ForeignKey(Course)
-    coordinator = models.ForeignKey(Coordinator)
+    docente = models.ForeignKey(Docente, null=True, default=None)
     STATUS_CHOICES = (
         (1, "Ativado"),
         (2, "Desativado")
         )
     status = models.PositiveIntegerField(choices=STATUS_CHOICES)
+    create_at = models.DateField("Data de criação", auto_now=True)
 
     class Meta:
         verbose_name = "Coordenador de Curso"
@@ -167,12 +158,13 @@ class CoordinatorCourse(models.Model):
 
 class CoordinatorPole(models.Model):
     pole = models.ForeignKey(Pole)
-    coordinator = models.ForeignKey(Coordinator)
+    docente = models.ForeignKey(Docente, null=True, default=None)
     STATUS_CHOICES = (
         (1, "Ativado"),
         (2, "Desativado")
         )
     status = models.PositiveIntegerField(choices=STATUS_CHOICES)
+    create_at = models.DateField("Data de criação", auto_now=True)
 
     class Meta:
         verbose_name = "Coordenador de Polo"

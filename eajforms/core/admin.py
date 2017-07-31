@@ -12,7 +12,6 @@ admin.site.register(Pole)
 admin.site.register(Student)
 admin.site.register(Docente)
 admin.site.register(DocenteCoursePole)
-admin.site.register(Coordinator)
 admin.site.register(CoordinatorCourse)
 admin.site.register(CoordinatorPole)
 
