@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import MatriculationsUploadFileForm
 import json, csv, os, random
 from django.conf import settings
@@ -23,6 +24,17 @@ def dashboard(request):
 @login_required
 def class_list(request):
     class_list = ClassCourse.objects.all()
+
+    paginator = Paginator(class_list, 8)
+
+    page = request.GET.get('page')
+    try:
+        class_list = paginator.page(page)
+    except PageNotAnInteger:
+        class_list = paginator.page(1)
+    except EmptyPage:
+        class_list = paginator.page(paginator.num_pages)
+
     return render(request, 'class/class_list.html', {"class_list":class_list})
 
 @login_required

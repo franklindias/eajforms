@@ -47,22 +47,19 @@
                     <td>{{class.course_pole.pole.name}}</td>
                     <td class="text-center">{{class.matriculation_set.count}}</td>
                     <td class="text-center" style="white-space: nowrap;">
-
                         <a href="{% url 'class_matriculations' pk=class.pk %}" rel="tooltip" title="" class="btn btn-success btn-simple btn-xs btn-action" data-original-title="Matriculados">
                             <i class="ti-user"></i>
                         </a>
-                        
                         <a href="#" rel="tooltip" title="" class="btn btn-primary btn-simple btn-xs btn-action" data-original-title="Editar">
                             <i class="ti-pencil"></i>
                         </a>
-                        
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% include "pagination.html" with objects=class_list %}
     </div>
-</div>
 </div>
 </div>
 {% endblock %}

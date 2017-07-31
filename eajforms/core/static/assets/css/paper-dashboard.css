@@ -4952,7 +4952,7 @@ strong {
 }
 .main-panel > .content {
   padding: 30px 15px 0 15px;
-  min-height: calc(100% - 123px);
+  min-height: calc(100% - 160px);
 }
 .main-panel > .footer {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -9380,7 +9380,7 @@ input.ct-danger + span + label + span.switch-right {
   z-index: 4;
 }
 .full-page > .content {
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 85px);
 }
 .full-page .full-page-background {
   position: absolute;

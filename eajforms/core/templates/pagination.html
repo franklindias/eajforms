@@ -1,0 +1,90 @@
+<div class="col-sm-5">
+         
+        </div>
+        <div class="col-sm-7">
+          <div class="pull-right">
+            <ul class="pagination m-0">
+              <li class="paginate_button previous {% if not objects.has_previous %}disabled{% endif %}">
+                <a href="?page={% if objects.has_previous %}{{ objects.previous_page_number }}{% endif %}" aria-controls="table-objects" aria-label="Anterior">Anterior</a>
+              </li>
+              {% if objects.paginator.num_pages < 12 %}
+                {% for page in objects.paginator.page_range %}
+                  <li class="{% if objects.number == page %}active{% endif %}">
+                    <a class="btn-pagination" href="?q={{ query }}&page={{ page }}">{{ page }}</a>
+                  </li>
+                {% endfor %}
+              {% else %}
+                {% if objects.number >= 1 and objects.number < 5 %}
+                  {% for page in objects.paginator.page_range %}
+                    {% if page <= 5 %}
+                      <li class="{% if objects.number == page %}active{% endif %}">
+                        <a class="btn-pagination" href="?q={{query}}&page={{ page }}">{{ page }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                  <li class="disabled">
+                    <a class="btn-pagination">...</a>
+                  </li>
+                  <li class="
+                    {% if objects.number == objects.paginator.num_pages %}
+                      active
+                    {% endif %}">
+                    <a class="btn-pagination" href="?q={{ query }}&page={{ objects.paginator.num_pages }}">
+                      {{ objects.paginator.num_pages }}
+                    </a>
+                  </li>
+                {% elif objects.number >= 5 and objects.number < objects.paginator.num_pages|add:"-3" %}
+                  <li class="{% if objects.number == page %}active{% endif %}">
+                    <a class="btn-pagination" href="?page=1">1</a>
+                  </li>
+                  <li class="disabled">
+                    <a class="btn-pagination">...</a>
+                  </li>
+                  {% for page in objects.paginator.page_range %}
+                    {% if page == objects.number %}
+                      <li class="{% if objects.number == objects.previous_page_number %}active{% endif %}">
+                        <a class="btn-pagination" href="?page={{ objects.previous_page_number }}">{{ objects.previous_page_number }}</a>
+                      </li>
+                      <li class="{% if objects.number == page %}active{% endif %}">
+                        <a class="btn-pagination" href="?q={{query}}&page={{ page }}">{{ page }}</a>
+                      </li>
+                      <li class="{% if objects.number == objects.next_page_number %}active{% endif %}">
+                        <a class="btn-pagination" href="?page={{ objects.next_page_number }}">{{ objects.next_page_number }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                  <li class="disabled">
+                    <a class="btn-pagination">...</a>
+                  </li>
+                  <li class="
+                    {% if objects.number == objects.paginator.num_pages %}
+                      active
+                    {% endif %}">
+                    <a class="btn-pagination" href="?q={{ query }}&page={{ objects.paginator.num_pages }}">
+                      {{ objects.paginator.num_pages }}
+                    </a>
+                  </li>
+                {% elif objects.paginator.num_pages|add:"-3" >= 1 and objects.number <= objects.paginator.num_pages %}
+                  <li class="{% if objects.number == page %}active{% endif %}">
+                    <a class="btn-pagination" href="?page=1">1</a>
+                  </li>
+                  <li class="disabled">
+                    <a class="btn-pagination">...</a>
+                  </li>
+                  {% for page in objects.paginator.page_range %}
+                    {% if page >= objects.paginator.num_pages|add:"-4" %}
+                      <li class="{% if objects.number == page %}active{% endif %}">
+                        <a class="btn-pagination" href="?q={{query}}&page={{ page }}">{{ page }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endif %}
+
+              <li class="paginate_button next {% if not objects.has_next %}disabled{% endif %}">
+                <a href="?page={% if objects.has_next %}{{ objects.next_page_number }}{% endif %}" aria-controls="table-objects" aria-label="Próximo">Próximo</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>

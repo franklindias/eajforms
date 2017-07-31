@@ -301,27 +301,28 @@
             "csrfmiddlewaretoken": "{{csrf_token}}",
           },
           success: function (response) {
+
             swal({
-              title: "Sucesso!",
-              text: "Formulário cadastrado com sucesso!",
-              type: "success",
-              showCancelButton: false,
-              confirmButtonColor: "#ff9602",
-              confirmButtonText: "Ok!",
-              closeOnConfirm: true
-            },
-            function(){
+             title: "Sucesso!",
+             text: "Formulário cadastrado com sucesso!",
+             type: "success",
+             showCancelButton: false,
+             confirmButtonColor: "#ff9602",
+             confirmButtonText: "Ok!",
+             closeOnConfirm: true
+           }).then(
+           function () {
              window.location = "{% url 'form_list' %}"
-           });
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            swal({
-              title:"Erro interno! ;(",
-              text:"Aconteceu algum erro inesperado, tente novamente!",
-              type:"error",
-            })
-          }
-        });
+           })
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+          swal({
+            title:"Erro interno! ;(",
+            text:"Aconteceu algum erro inesperado, tente novamente!",
+            type:"error",
+          })
+        }
+      });
       },
     },
     created(){
